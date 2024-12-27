@@ -1,6 +1,8 @@
 package BehavioralPatterns.VisitorPattern;
 
+import BehavioralPatterns.VisitorPattern.ConcreteClasses.Company;
 import BehavioralPatterns.VisitorPattern.ConcreteClasses.Residence;
+import BehavioralPatterns.VisitorPattern.ConcreteClasses.Restaurant;
 import BehavioralPatterns.VisitorPattern.ConcreteVisitor.InsuranceMail;
 import BehavioralPatterns.VisitorPattern.ConcreteVisitor.LoanMail;
 
@@ -14,9 +16,9 @@ public class Main {
         Visitor insuranceMail = new InsuranceMail();
         Visitor loanMail = new LoanMail();
 
-        clientList.add(new Residence("Home"));
-        clientList.add(new Residence("Restaurant"));
+        clientList.add(new Company("Home"));
         clientList.add(new Residence("Residence"));
+        clientList.add(new Restaurant("Restaurant"));
         for(Client client: clientList) {
             // Send insurance Mail
             client.accept(insuranceMail);

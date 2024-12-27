@@ -1,5 +1,7 @@
 package BehavioralPatterns.StrategyPatern.AbstractAndInterfaces;
 
+import java.util.TreeMap;
+
 public abstract class Duck {
     SoundStrategy soundStrategy;
     FlyStrategy flyStrategy;
