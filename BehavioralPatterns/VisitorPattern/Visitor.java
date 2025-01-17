@@ -9,3 +9,15 @@ public interface Visitor {
     void visitCompany(Company company);
     void visitResidence(Residence residence);
 }
+
+
+/*
+*
+* Notify
+*
+* Group => join,exit
+* User => new chatroom
+*
+*
+*
+* */
