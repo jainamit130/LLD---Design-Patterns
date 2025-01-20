@@ -1,6 +1,6 @@
 package Examples.ParkingSystem.PaymentStrategies;
 
-public interface PaymentStrategy {
+public interface TransactionStrategy {
     boolean validatePaymentDetails();
-    void transact(Integer amount);
+    boolean transact(Integer amount);
 }

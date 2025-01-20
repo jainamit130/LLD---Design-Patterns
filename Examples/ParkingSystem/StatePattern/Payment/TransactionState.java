@@ -10,4 +10,6 @@ public abstract class TransactionState {
         this.status = status;
         this.transaction = transaction;
     }
+
+    public abstract void transact();
 }

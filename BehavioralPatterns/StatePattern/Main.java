@@ -11,5 +11,7 @@ public class Main {
         onOff.addActionListener(e -> System.out.println(phone.getState().onPower()));
         home.doClick();
         onOff.doClick();
+
+
     }
 }

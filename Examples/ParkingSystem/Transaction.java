@@ -1,30 +1,29 @@
 package Examples.ParkingSystem;
 
-import Examples.ParkingSystem.PaymentStrategies.PaymentStrategy;
+import Examples.ParkingSystem.PaymentStrategies.TransactionStrategy;
+import Examples.ParkingSystem.StatePattern.Bill.Bill;
 import Examples.ParkingSystem.StatePattern.Payment.TransactionState;
 import Examples.ParkingSystem.StatePattern.Payment.PendingState;
 
 public abstract class Transaction {
-    protected PaymentStrategy paymentStrategy;
+    protected TransactionStrategy transactionStrategy;
     protected Integer amount;
     protected TransactionState state;
+    private Bill bill;
 
-    public Transaction(PaymentStrategy paymentStrategy, Integer amount) {
-        this.paymentStrategy = paymentStrategy;
+    public Transaction(TransactionStrategy transactionStrategy, Integer amount) {
+        this.transactionStrategy = transactionStrategy;
         this.amount = amount;
         this.state = new PendingState(this);
+        bill.addTransaction(this);
     }
 
     public void setPaymentState(TransactionState state) {
         this.state = state;
     }
 
-    public PaymentStrategy getPaymentStrategy() {
-        return paymentStrategy;
-    }
-
-    public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
-        this.paymentStrategy = paymentStrategy;
+    public TransactionState getState() {
+        return state;
     }
 
     public Integer getAmount() {
@@ -36,11 +35,13 @@ public abstract class Transaction {
     }
 
     public boolean transact() {
-        if(!paymentStrategy.validatePaymentDetails()) {
+        if(!transactionStrategy.validatePaymentDetails()) {
             System.out.println("Invalid Transaction Details!");
             return false;
         }
-        paymentStrategy.transact(amount);
-        return true;
+        if(transactionStrategy.transact(amount)) return true;
+        return false;
     }
+
+    public abstract TransactionState getCompleteTransactionState();
 }

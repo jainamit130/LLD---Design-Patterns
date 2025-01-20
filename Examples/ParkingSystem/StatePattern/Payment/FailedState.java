@@ -1,7 +1,6 @@
 package Examples.ParkingSystem.StatePattern.Payment;
 
 import Examples.ParkingSystem.Transaction;
-import Examples.ParkingSystem.StatePattern.PaidState;
 
 public class FailedState extends TransactionState {
 
@@ -9,9 +8,14 @@ public class FailedState extends TransactionState {
         super(TransactionStatus.FAILED, transaction);
     }
 
+    @Override
+    public void transact() {
+        retry();
+    }
+
     public void retry() {
-        if(transaction.pay()) {
-            transaction.setPaymentState(new PaidState(transaction));
+        if(transaction.transact()) {
+            transaction.setPaymentState(transaction.getCompleteTransactionState());
         } else {
             transaction.setPaymentState(new FailedState(transaction));
         }

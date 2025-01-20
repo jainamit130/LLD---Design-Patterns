@@ -1,12 +1,15 @@
-package Examples.ParkingSystem.StatePattern;
+package Examples.ParkingSystem.StatePattern.Payment;
 
 import Examples.ParkingSystem.Transaction;
-import Examples.ParkingSystem.StatePattern.Payment.TransactionState;
-import Examples.ParkingSystem.StatePattern.Payment.TransactionStatus;
 
 public class PaidState extends TransactionState {
 
     public PaidState(Transaction transaction) {
         super(TransactionStatus.PAID, transaction);
+    }
+
+    @Override
+    public void transact() {
+        throw new IllegalStateException("Payment is already completed!");
     }
 }

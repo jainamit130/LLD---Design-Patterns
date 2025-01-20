@@ -1,7 +1,6 @@
 package Examples.ParkingSystem.StatePattern.Payment;
 
 import Examples.ParkingSystem.Transaction;
-import Examples.ParkingSystem.StatePattern.PaidState;
 
 public class PendingState extends TransactionState {
 
@@ -9,9 +8,10 @@ public class PendingState extends TransactionState {
         super(TransactionStatus.PENDING, transaction);
     }
 
-    public void pay() {
+    @Override
+    public void transact() {
         if(transaction.transact()) {
-            transaction.setPaymentState(new PaidState(transaction));
+            transaction.setPaymentState(transaction.getCompleteTransactionState());
         } else {
             transaction.setPaymentState(new FailedState(transaction));
         }
