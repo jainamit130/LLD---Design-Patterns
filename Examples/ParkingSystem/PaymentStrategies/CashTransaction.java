@@ -9,7 +9,7 @@ public class CashTransaction implements TransactionStrategy {
     }
 
     @Override
-    public boolean transact(Integer amount) {
+    public boolean transact(Double amount) {
         // Do Processing to the external Payment System (Out of scope)
         System.out.println("Cash Transaction : Successfully transacted Rs. "+amount);
         return true;

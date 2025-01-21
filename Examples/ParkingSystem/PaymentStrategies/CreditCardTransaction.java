@@ -9,7 +9,7 @@ public class CreditCardTransaction implements TransactionStrategy {
     }
 
     @Override
-    public boolean transact(Integer amount) {
+    public boolean transact(Double amount) {
         // Do Processing to the external Payment System (Out of scope)
         System.out.println("Processing Credit Card Transaction...");
         try {

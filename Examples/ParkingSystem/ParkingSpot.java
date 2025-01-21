@@ -2,14 +2,19 @@ package Examples.ParkingSystem;
 
 import Examples.ParkingSystem.Exceptions.NoEntryWeightException;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ParkingSpot {
     private String parkingSpotId;
     private ParkingType parkingType;
-    private Integer floor;
-    private SpotStatus status;
     private Map<String,Integer> entryWeightMap;
+
+    public ParkingSpot(String parkingSpotId,ParkingType parkingType) {
+        this.parkingSpotId = parkingSpotId;
+        this.parkingType = parkingType;
+        entryWeightMap = new HashMap<>();
+    }
 
     public String getParkingSpotId() {
         return parkingSpotId;
@@ -25,5 +30,17 @@ public class ParkingSpot {
 
     public Integer getEntryWeight(String entryGateId) throws NoEntryWeightException {
         return entryWeightMap.getOrDefault(entryGateId,entryWeightMap.size());
+    }
+
+    public void setParkingType(ParkingType parkingType) {
+        this.parkingType = parkingType;
+    }
+
+    public Map<String, Integer> getEntryWeightMap() {
+        return entryWeightMap;
+    }
+
+    public void setEntryWeightMap(Map<String, Integer> entryWeightMap) {
+        this.entryWeightMap = entryWeightMap;
     }
 }

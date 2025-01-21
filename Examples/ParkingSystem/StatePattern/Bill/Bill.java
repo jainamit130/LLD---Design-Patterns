@@ -1,39 +1,46 @@
 package Examples.ParkingSystem.StatePattern.Bill;
 
-import Examples.ParkingSystem.StatePattern.Bill.BillState;
-import Examples.ParkingSystem.StatePattern.Bill.BillStatus;
+import Examples.ParkingSystem.ParkingType;
+import Examples.ParkingSystem.Pricing.PricingStrategy;
+import Examples.ParkingSystem.Pricing.PricingStrategyFactory;
 import Examples.ParkingSystem.StatePattern.Payment.Payment;
 import Examples.ParkingSystem.StatePattern.Payment.RefundPayment;
 import Examples.ParkingSystem.Transaction;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Bill {
     private String billId;
     private String tokenId;
+    private PricingStrategy pricingStrategy;
     List<Transaction> transactions;
-    private Integer originalAmount;    // Original charge
-    private Integer paidAmount;        // Amount paid
-    private Integer refundedAmount;    // Amount refunded
+    private Double originalAmount;    // Original charge
+    private Double paidAmount;        // Amount paid
+    private Double refundedAmount;    // Amount refunded
     private BillState billState;
 
-    /*
-    *
-    *
-    * if PaidAmount - RefundedAmount
-    *
-    *
-    * */
+    public Bill(PricingStrategy pricingStrategy, Instant parkTime) {
+        this.transactions = new ArrayList<>();
+        this.pricingStrategy = pricingStrategy;
+        this.originalAmount = pricingStrategy.calculatePrice(parkTime);
+        this.paidAmount=0.0;
+        this.refundedAmount=0.0;
+        this.billState = new PendingState(this);
+    }
 
-    public Integer getOriginalAmount() {
+    public BillState getBillState() { return billState; }
+
+    public Double getOriginalAmount() {
         return originalAmount;
     }
 
-    public Integer getPaidAmount() {
+    public Double getPaidAmount() {
         return paidAmount;
     }
 
-    public Integer getRefundedAmount() {
+    public Double getRefundedAmount() {
         return refundedAmount;
     }
 
@@ -41,13 +48,22 @@ public class Bill {
         billState = state;
     }
 
-    public Integer getNetBalance() { return paidAmount-(originalAmount+refundedAmount); }
+    public Double getNetBalance() {
+        return paidAmount-(originalAmount+refundedAmount);
+    }
 
-    private void payAmount(Integer paidAmount) {
+    /*
+    * paidAmount-(originalAmount+refundedAmount)<0
+    *
+    *
+    *
+    * */
+
+    private void payAmount(Double paidAmount) {
         this.paidAmount += paidAmount;
     }
 
-    private void refundAmount(Integer refundedAmount) {
+    private void refundAmount(Double refundedAmount) {
         this.refundedAmount += refundedAmount;
 
     }
@@ -62,5 +78,19 @@ public class Bill {
 
     public void addTransaction(Transaction transaction) {
         transactions.add(transaction);
+    }
+
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "billId='" + billId + '\'' +
+                ", tokenId='" + tokenId + '\'' +
+                ", pricingStrategy=" + pricingStrategy +
+                ", transactions=" + transactions +
+                ", originalAmount=" + originalAmount +
+                ", paidAmount=" + paidAmount +
+                ", refundedAmount=" + refundedAmount +
+                ", billState=" + billState +
+                '}';
     }
 }

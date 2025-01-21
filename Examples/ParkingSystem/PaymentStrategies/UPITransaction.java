@@ -3,13 +3,16 @@ package Examples.ParkingSystem.PaymentStrategies;
 public class UPITransaction implements TransactionStrategy {
     private PaymentDetails details;
 
+    public UPITransaction(PaymentDetails details) {
+    }
+
     @Override
     public boolean validatePaymentDetails() {
         return true;
     }
 
     @Override
-    public boolean transact(Integer amount) {
+    public boolean transact(Double amount) {
         // Do Processing to the external Payment System (Out of scope)
         System.out.println("Processing UPI Transaction...");
         try {

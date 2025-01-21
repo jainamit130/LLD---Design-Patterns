@@ -15,17 +15,22 @@ public class PriorityQueueAllocationStrategy extends AllocationStrategy {
     private Map<String, Map<ParkingType,PriorityQueue<WeightedItem>>> priorityQueuesMap;
 
     public PriorityQueueAllocationStrategy(List<EntryGate> entryGates, List<ParkingSpot> parkingSpots) {
+        super();
+        this.reservedSpots = new HashSet<>();
         this.parkingSpots = parkingSpots;
         priorityQueuesMap = new HashMap<>();
         for(EntryGate entryGate: entryGates) {
-            Map<ParkingType,PriorityQueue<WeightedItem>> entryGateQueuesMap = priorityQueuesMap.put(entryGate.getEntryGateId(),new HashMap<>());
+            entryGate.setAllocationStrategy(this);
+            priorityQueuesMap.put(entryGate.getEntryGateId(),new HashMap<>());
+            Map<ParkingType,PriorityQueue<WeightedItem>> entryGateQueuesMap = priorityQueuesMap.get(entryGate.getEntryGateId());
             for(ParkingType type: ParkingType.values()) {
-                PriorityQueue<WeightedItem> entryGateParkTypeQueue = entryGateQueuesMap.put(type,new PriorityQueue<WeightedItem>((a, b) -> Integer.compare(a.getWeight(), b.getWeight())));
+                entryGateQueuesMap.put(type,new PriorityQueue<WeightedItem>((a, b) -> Integer.compare(a.getWeight(), b.getWeight())));
+                PriorityQueue<WeightedItem> entryGateParkTypeQueue = entryGateQueuesMap.get(type);
             }
             for(ParkingSpot spot: parkingSpots) {
                 String entryGateId = entryGate.getEntryGateId();
                 PriorityQueue<WeightedItem> entryGateParkTypeQueue = entryGateQueuesMap.get(spot.getParkingType());
-                entryGateParkTypeQueue.add(new WeightedItem(spot.getEntryWeight(entryGateId), entryGateId));
+                entryGateParkTypeQueue.add(new WeightedItem(spot.getEntryWeight(entryGateId), spot.getParkingSpotId(), spot.getParkingType()));
             }
         }
     }
@@ -35,7 +40,7 @@ public class PriorityQueueAllocationStrategy extends AllocationStrategy {
             Map<ParkingType,PriorityQueue<WeightedItem>> entryGateQueuesMap = priorityQueuesMap.put(entryGate.getEntryGateId(),new HashMap<>());
             PriorityQueue<WeightedItem> entryGateParkTypeQueue = entryGateQueuesMap.put(type,new PriorityQueue<WeightedItem>((a, b) -> Integer.compare(a.getWeight(), b.getWeight())));
             for(ParkingSpot spot: parkingSpots) {
-                entryGateParkTypeQueue.add(new WeightedItem(spot.getEntryWeight(entryGate.getEntryGateId()), entryGate.getEntryGateId()));
+                entryGateParkTypeQueue.add(new WeightedItem(spot.getEntryWeight(entryGate.getEntryGateId()), spot.getParkingSpotId(), spot.getParkingType()));
             }
         }
     }
@@ -59,9 +64,9 @@ public class PriorityQueueAllocationStrategy extends AllocationStrategy {
     }
 
     @Override
-    public String getAllocatedParkingSpotId(String entryGateId,ParkingType type,String carNum) {
+    public WeightedItem getAllocatedParkingSpotId(String entryGateId,ParkingType type,String carNum) throws NoSpotAvailableException {
         PriorityQueue<WeightedItem> entryGateParkTypeQueue = priorityQueuesMap.get(entryGateId).get(type);
-        while(isReserved(entryGateParkTypeQueue.peek().getId())) {
+        while(!entryGateParkTypeQueue.isEmpty() && isReserved(entryGateParkTypeQueue.peek().getId())) {
             entryGateParkTypeQueue.remove();
         }
 
@@ -73,10 +78,10 @@ public class PriorityQueueAllocationStrategy extends AllocationStrategy {
         }
 
         if(!entryGateParkTypeQueue.isEmpty()) {
-            String allotedSpotId = entryGateParkTypeQueue.poll().getId();
-            carToSpotIdMap.put(carNum,allotedSpotId);
-            reserve(allotedSpotId);
-            return allotedSpotId;
+            WeightedItem weightedItem = entryGateParkTypeQueue.poll();
+            carToSpotIdMap.put(carNum,weightedItem.getId());
+            reserve(weightedItem.getId());
+            return weightedItem;
         }
 
         throw new NoSpotAvailableException();
