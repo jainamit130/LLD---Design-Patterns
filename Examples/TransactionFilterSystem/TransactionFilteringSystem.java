@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 public class TransactionFilteringSystem {
     private final List<Transaction> transactions;
@@ -18,7 +19,9 @@ public class TransactionFilteringSystem {
         try {
             List<Transaction> result = new ArrayList<>(transactions);
             for (TransactionFilter filter : filters) {
-                result.removeIf(transaction -> !filter.apply(transaction));
+                result = result.stream()
+                        .filter(filter::apply)
+                        .collect(Collectors.toList());
             }
             return result;
         } finally {

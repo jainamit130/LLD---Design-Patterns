@@ -1,6 +1,6 @@
 package BehavioralPatterns.IteratorPattern;
 
-import BehavioralPatterns.IteratorPattern.ConcreteIterator.BreadthFirstIerator;
+import BehavioralPatterns.IteratorPattern.ConcreteIterator.BreadthFirstIterator;
 import BehavioralPatterns.IteratorPattern.ConcreteIterator.DepthFirstIterator;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class Main {
         Iterator<Integer> dfs = new DepthFirstIterator<>(n1);
         dfs.traverse();
         dfs.reset();
-        Iterator<Integer> bfs = new BreadthFirstIerator<>(n1);
+        Iterator<Integer> bfs = new BreadthFirstIterator<>(n1);
         bfs.traverse();
         bfs.reset();
     }

@@ -6,12 +6,12 @@ import BehavioralPatterns.IteratorPattern.Node;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BreadthFirstIerator<T> implements Iterator<T> {
+public class BreadthFirstIterator<T> implements Iterator<T> {
 
     private final Node<T> source;
     private final Queue<Node<T>> queue = new LinkedList<>();
 
-    public BreadthFirstIerator(Node<T> source) {
+    public BreadthFirstIterator(Node<T> source) {
         this.source = source;
         queue.add(source);
     }
@@ -25,7 +25,7 @@ public class BreadthFirstIerator<T> implements Iterator<T> {
     public Node getNext() {
 
         if(!hasNext()) {
-            return new Node(-1);
+            return null;
         }
 
         Node<T> node = queue.poll();

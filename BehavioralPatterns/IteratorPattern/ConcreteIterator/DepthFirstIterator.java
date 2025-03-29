@@ -5,11 +5,12 @@ import BehavioralPatterns.IteratorPattern.Node;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Stack;
 
 public class DepthFirstIterator<T> implements Iterator<T> {
 
     private final Node<T> source;
-    private final Deque<Node<T>> stack = new LinkedList<>();
+    private final Stack<Node<T>> stack = new Stack<>();
 
     public DepthFirstIterator(Node<T> source) {
         this.source = source;

@@ -33,7 +33,7 @@ public class Editor {
     }
 
 
-    public static class Memento {
+    public class Memento {
         private final String text;
         private final String format;
 

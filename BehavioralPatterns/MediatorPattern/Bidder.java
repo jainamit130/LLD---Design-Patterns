@@ -1,6 +1,6 @@
 package BehavioralPatterns.MediatorPattern;
 
-public class Bidder {
+public class Bidder implements IBidder {
     private Mediator auctionMediator;
     private Integer bidAmount;
     private String name;

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AuctionMediator implements Mediator {
     private Integer bidAmount;
-    private List<Bidder> bidderList;
+    private List<IBidder> bidderList;
 
     public AuctionMediator(List<Bidder> bidderList) {
         this.bidAmount = 0;
@@ -33,7 +33,7 @@ public class AuctionMediator implements Mediator {
 
     @Override
     public void notifyBidders(Bidder currentBidder) {
-        for(Bidder bidder: this.bidderList) {
+        for(IBidder bidder: this.bidderList) {
             if(!bidder.equals(currentBidder)) {
                 bidder.receiveNotification(bidAmount);
             }
