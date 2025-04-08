@@ -4,25 +4,43 @@ import Examples.AirlineManagementSystem.entities.Airport;
 import Examples.AirlineManagementSystem.entities.user.Crew;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class AvailabilityManagement {
 
-    private final Map<Airport, PriorityQueue<Crew>> availabilityMap;
-    private final Map<String,Airport> crewAssignedAirport;
+    private final ConcurrentHashMap<Airport, Set<Crew>> availabilityMap;
 
-    public AvailabilityManagement(List<Crew> crews) {
-        this.availabilityMap = new HashMap<>();
-        this.crewAssignedAirport = new HashMap<>();
-        crews.stream().forEach(crew -> {
-            Airport crewSourceAirport = crew.getSource();
-            crewAssignedAirport.put(crew.getCrewId(),crewSourceAirport);
-            if(!availabilityMap.containsKey(crewSourceAirport)) {
-                availabilityMap.put(crewSourceAirport,new PriorityQueue<>(new Comparator<Crew>() {
-                    @Override
-                    public int compare(Crew crew1, Crew crew2) {
-                    }
-                }));
-            }
-        });
+    public AvailabilityManagement() {
+        this.availabilityMap = new ConcurrentHashMap<>();
+    }
+
+    private void addCrewToSource(Crew crew,Airport source) {
+        availabilityMap.compute(source, ((airport, crewSet) -> {
+            if(crewSet==null) crewSet = new CopyOnWriteArraySet<>();
+            crewSet.add(crew);
+            return crewSet;
+        }));
+    }
+
+    private void removeCrewFromSource(Crew crew, Airport oldSource) {
+        availabilityMap.compute(oldSource,(((airport, crewSet) -> {
+            crewSet.remove(crew);
+            if(crewSet.isEmpty()) return null;
+            return crewSet;
+        })));
+    }
+
+    public void setSourceForCrew(Crew crew, Airport oldSource, Airport newSource) {
+        if(oldSource!=null) removeCrewFromSource(crew, oldSource);
+        addCrewToSource(crew,newSource);
     }
 }
+
+
+/*
+*
+* 2,8  3,7   1,6  4,3  9,8
+*
+*
+* */

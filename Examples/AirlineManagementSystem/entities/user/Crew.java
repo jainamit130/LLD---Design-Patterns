@@ -9,17 +9,14 @@ public class Crew extends Staff {
     private String crewId;
     private String name;
     private Airport source;
-    private LocalDate availabilityStartDate;
-    private LocalDate availabilityEndDate;
     private final AvailabilityManagement availabilityManagement;
 
     public Crew(String crewId, String name, Airport source, LocalDate availabilityStartDate, LocalDate availabilityEndDate, AvailabilityManagement availabilityManagement) {
         this.crewId = crewId;
         this.name = name;
         this.source = source;
-        this.availabilityStartDate = availabilityStartDate;
-        this.availabilityEndDate = availabilityEndDate;
         this.availabilityManagement = availabilityManagement;
+        this.availabilityManagement.setSourceForCrew(this,null,this.source);
     }
 
     public void setCrewId(String crewId) {
@@ -31,15 +28,9 @@ public class Crew extends Staff {
     }
 
     public void setSource(Airport source) {
+        Airport oldSource = getSource();
         this.source = source;
-    }
-
-    public void setAvailabilityStartDate(LocalDate availabilityStartDate) {
-        this.availabilityStartDate = availabilityStartDate;
-    }
-
-    public void setAvailabilityEndDate(LocalDate availabilityEndDate) {
-        this.availabilityEndDate = availabilityEndDate;
+        availabilityManagement.setSourceForCrew(this,oldSource,source);
     }
 
     public String getCrewId() {
@@ -54,11 +45,4 @@ public class Crew extends Staff {
         return source;
     }
 
-    public LocalDate getAvailabilityStartDate() {
-        return availabilityStartDate;
-    }
-
-    public LocalDate getAvailabilityEndDate() {
-        return availabilityEndDate;
-    }
 }
