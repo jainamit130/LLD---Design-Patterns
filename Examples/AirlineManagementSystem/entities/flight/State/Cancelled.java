@@ -1,6 +1,6 @@
 package Examples.AirlineManagementSystem.entities.flight.State;
 
-import Examples.AirlineManagementSystem.entities.Airport;
+import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.enums.FlightStatus;
 import Examples.AirlineManagementSystem.entities.flight.Flight;
 import Examples.AirlineManagementSystem.notifier.Notifier;

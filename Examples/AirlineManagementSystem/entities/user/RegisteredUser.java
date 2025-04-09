@@ -1,6 +1,7 @@
 package Examples.AirlineManagementSystem.entities.user;
 
-import Examples.AirlineManagementSystem.entities.Booking;
+import Examples.AirlineManagementSystem.entities.booking.Booking;
+import Examples.AirlineManagementSystem.service.BookingService;
 
 public class RegisteredUser extends User {
 
@@ -8,7 +9,11 @@ public class RegisteredUser extends User {
     protected Account account;
 
     // Should be able to book flights
-    void bookFlight(Booking booking) {
+    void bookFlight(BookingService bookingService, Booking booking) {
 
+    }
+
+    public String getName() {
+        return name;
     }
 }

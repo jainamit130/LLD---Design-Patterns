@@ -1,7 +1,6 @@
 package Examples.AirlineManagementSystem.entities.flight;
 
-import Examples.AirlineManagementSystem.entities.Aircraft;
-import Examples.AirlineManagementSystem.entities.Airport;
+import Examples.AirlineManagementSystem.entities.aircraft.Aircraft;
 import Examples.AirlineManagementSystem.entities.flight.State.Scheduled;
 import Examples.AirlineManagementSystem.entities.flight.State.State;
 import Examples.AirlineManagementSystem.entities.user.Crew;
@@ -14,24 +13,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Flight {
-    private String flightId;
-    private State flightState;
-    private Airport source;
-    private Airport destination;
-    private Aircraft aircraft;
-    private Instant departureTime;
-    private Instant arrivalTime;
-    private Duration duration;
-    private List<Passenger> passengers;
-    private List<Crew> crew;
+    private final String flightId;
+    private final State flightState;
+    private final Airport source;
+    private final Airport destination;
+    private final Aircraft aircraft;
+    private final Instant departureTime;
+    private final Instant arrivalTime;
+    private final Duration duration;
+    private final List<Passenger> passengers;
+    private final List<Crew> crew;
+    private final double price;
 
-    public Flight(String flightId, Airport source, Airport destination, Aircraft aircraft, Instant departureTime, Duration duration, List<Crew> crew, Notifier notifier) {
+    public Flight(String flightId, Airport source, Airport destination, Aircraft aircraft, Instant departureTime, Duration duration, List<Crew> crew, Notifier notifier, double price) {
         this.flightId = flightId;
         this.source = source;
         this.destination = destination;
         this.aircraft = aircraft;
         this.departureTime = departureTime;
         this.duration = duration;
+        this.price = price;
         this.arrivalTime = departureTime.plus(duration);
         this.flightState = new Scheduled(this,notifier);
         this.crew = crew;

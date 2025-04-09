@@ -1,6 +1,6 @@
 package Examples.AirlineManagementSystem.filter;
 
-import Examples.AirlineManagementSystem.entities.Airport;
+import Examples.AirlineManagementSystem.entities.flight.Airport;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

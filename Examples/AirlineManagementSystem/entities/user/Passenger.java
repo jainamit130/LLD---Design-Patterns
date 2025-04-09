@@ -12,4 +12,8 @@ public class Passenger extends User {
     public void notifyPassenger(Flight flight) {
         System.out.println("To passenger "+name+" - "+flight.getFlightId()+" has been "+flight.getFlightState().getStatus());
     }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -1,6 +1,6 @@
 package Examples.AirlineManagementSystem.CrewAvailabilitySystem;
 
-import Examples.AirlineManagementSystem.entities.Airport;
+import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.user.Crew;
 
 import java.util.*;
@@ -8,11 +8,23 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class AvailabilityManagement {
-
+    private static volatile AvailabilityManagement instance;
     private final ConcurrentHashMap<Airport, Set<Crew>> availabilityMap;
 
-    public AvailabilityManagement() {
+    private AvailabilityManagement() {
         this.availabilityMap = new ConcurrentHashMap<>();
+    }
+
+    public static AvailabilityManagement getInstance() {
+        AvailabilityManagement availabilityManagement = instance;
+        if(availabilityManagement == null) {
+            synchronized(AvailabilityManagement.class) {
+                if(instance==null) {
+                    instance = new AvailabilityManagement();
+                }
+            }
+        }
+        return availabilityManagement;
     }
 
     private void addCrewToSource(Crew crew,Airport source) {

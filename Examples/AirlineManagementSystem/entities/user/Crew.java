@@ -1,7 +1,7 @@
 package Examples.AirlineManagementSystem.entities.user;
 
 import Examples.AirlineManagementSystem.CrewAvailabilitySystem.AvailabilityManagement;
-import Examples.AirlineManagementSystem.entities.Airport;
+import Examples.AirlineManagementSystem.entities.flight.Airport;
 
 import java.time.LocalDate;
 
