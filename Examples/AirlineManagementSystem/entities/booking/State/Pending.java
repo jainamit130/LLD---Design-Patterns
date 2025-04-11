@@ -10,13 +10,14 @@ public class Pending extends BookingState {
         super(booking, BookingStatus.PENDING);
     }
 
+    // ->
     @Override
-    public Payment book() {
-        booking.book();
+    public boolean confirm(Payment payment) {
+
     }
 
     @Override
-    public void cancel() {
+    public boolean cancel() {
 
     }
 

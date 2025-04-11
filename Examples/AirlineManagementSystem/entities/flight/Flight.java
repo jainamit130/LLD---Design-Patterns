@@ -14,16 +14,16 @@ import java.util.List;
 
 public class Flight {
     private final String flightId;
-    private final State flightState;
-    private final Airport source;
-    private final Airport destination;
-    private final Aircraft aircraft;
-    private final Instant departureTime;
-    private final Instant arrivalTime;
-    private final Duration duration;
-    private final List<Passenger> passengers;
-    private final List<Crew> crew;
-    private final double price;
+    private State flightState;
+    private Airport source;
+    private Airport destination;
+    private Aircraft aircraft;
+    private Instant departureTime;
+    private Instant arrivalTime;
+    private Duration duration;
+    private List<Passenger> passengers;
+    private List<Crew> crew;
+    private double price;
 
     public Flight(String flightId, Airport source, Airport destination, Aircraft aircraft, Instant departureTime, Duration duration, List<Crew> crew, Notifier notifier, double price) {
         this.flightId = flightId;
@@ -87,10 +87,6 @@ public class Flight {
     public void setDuration(Duration duration) {
         this.duration = duration;
         this.arrivalTime = getDepartureTime().plus(duration);
-    }
-
-    public void setFlightId(String flightId) {
-        this.flightId = flightId;
     }
 
     public void setFlightState(State flightState) {

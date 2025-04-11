@@ -8,7 +8,7 @@ import Examples.AirlineManagementSystem.service.payment.PaymentStrategy;
 public class Payment {
     private final Booking booking;
     private PaymentStrategy paymentStrategy;
-    private final PaymentState paymentState;
+    private PaymentState paymentState;
     private final double amount;
 
     public Payment(Booking booking, double amount) {

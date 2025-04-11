@@ -1,5 +1,6 @@
 package Examples.AirlineManagementSystem.entities.booking;
 
+import Examples.AirlineManagementSystem.BookingManagement;
 import Examples.AirlineManagementSystem.entities.aircraft.Seat;
 import Examples.AirlineManagementSystem.entities.booking.State.BookingState;
 import Examples.AirlineManagementSystem.entities.booking.State.Pending;
@@ -9,8 +10,9 @@ import Examples.AirlineManagementSystem.entities.user.Passenger;
 import Examples.AirlineManagementSystem.entities.user.RegisteredUser;
 
 import java.util.List;
+import java.util.concurrent.Delayed;
 
-public class Booking {
+public class Booking implements Delayed {
     private final String bookingId;
     private final RegisteredUser user;
     private final Flight flight;
@@ -18,6 +20,8 @@ public class Booking {
     private Payment payment;
     private List<Seat> seats;
     private List<Passenger> passengers;
+    private final BookingManagement bookingManagement;
+    private final long timeout;
 
     public Booking(String bookingId, RegisteredUser user, Flight flight, List<Seat> seats, List<Passenger> passengers) {
         if(seats.size()==0 || passengers.size()==0) throw new RuntimeException("Invalid Booking!");
@@ -28,6 +32,12 @@ public class Booking {
         this.passengers = passengers;
         this.bookingState = new Pending(this);
         this.payment = null;
+        bookingManagement = BookingManagement.getInstance();
+        this.timeout = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(300000);
+    }
+
+    public Flight getFlight() {
+        return flight;
     }
 
     public void notifyBookingFailure() {
@@ -35,6 +45,7 @@ public class Booking {
     }
 
     public void notifyBookingSuccess() {
+
         System.out.println("Notification to : "+user.getName()+"about booking successful");
         for (Passenger passenger: passengers) {
             System.out.println("Notification to : "+passenger.getName()+"about booking successful");
@@ -43,7 +54,10 @@ public class Booking {
 
     public Payment book() {
         boolean isBookingValid = validateBooking();
-        if(isBookingValid) return new Payment(this,calculatePrice());
+        if(isBookingValid) {
+            bookingManagement.updateBooking(this);
+            return new Payment(this, calculatePrice());
+        }
         return null;
     }
 
@@ -63,5 +77,17 @@ public class Booking {
             }
         }
         return true;
+    }
+
+    @Override
+    public long getDelay(TimeUnit unit) {
+        long diff = timeout - System.nanoTime();
+        return unit.convert(diff, Timeunit.MILLISECONDS);
+    }
+
+    @Override
+    public int compareTo(Delayed otherDelayedTask) {
+        return Long.compare(getDelay(Timeunit.NANOSECONDS),
+                otherDelayedTask.getDelay(Timeunit.NANOSECONDS));
     }
 }
