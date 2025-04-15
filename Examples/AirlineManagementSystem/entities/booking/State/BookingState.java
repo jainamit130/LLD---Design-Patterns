@@ -13,14 +13,16 @@ public abstract class BookingState {
         this.bookingStatus = bookingStatus;
     }
 
+    public abstract void notifyBooking();
+
     // Failed, Expired ---Reserve Seat With Timeout---> Pending
-    public abstract boolean book();
+    public abstract Payment book();
 
     // Pending ----Reserve Seat Permanently----> Confirmed
     // Pending ----Release Seat ----> Failed
-    public abstract boolean confirm(Payment payment);
+    public abstract void confirm(Payment payment);
 
     // Pending ----Release Seat-----> Cancelled
     // Confirmed ----Release Seat-----> Cancelled (trigger Refund flow)
-    public abstract boolean cancel();
+    public abstract void cancel();
 }

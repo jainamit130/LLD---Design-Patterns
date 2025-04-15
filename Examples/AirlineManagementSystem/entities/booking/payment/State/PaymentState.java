@@ -13,5 +13,5 @@ public abstract class PaymentState {
     }
 
     public abstract void process();
-    public abstract void refund();
+    public abstract void refund(double refundPercent);
 }

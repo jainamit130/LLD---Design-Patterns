@@ -4,29 +4,31 @@ import Examples.AirlineManagementSystem.entities.booking.Booking;
 import Examples.AirlineManagementSystem.entities.booking.payment.Payment;
 import Examples.AirlineManagementSystem.entities.enums.BookingStatus;
 
-public class Cancelled extends BookingState {
-    protected Cancelled(Booking booking) {
-        super(booking, BookingStatus.CANCELLED);
+public class Confirmed extends BookingState {
+
+    protected Confirmed(Booking booking) {
+        super(booking, BookingStatus.CONFIRMED);
     }
 
     @Override
     public void notifyBooking() {
-        booking.notifyAll("Booking is cancelled");
+        booking.notifyAll("Booking is confirmed");
     }
 
     @Override
     public Payment book() {
-        System.out.println("Booking is cancelled! Please create another booking");
+        System.out.println("Booking is already confirmed");
         return null;
     }
 
     @Override
     public void confirm(Payment payment) {
-        System.out.println("Booking is cancelled! Please create another booking");
+        System.out.println("Booking is already confirmed!");
     }
 
     @Override
     public void cancel() {
-        System.out.println("Booking is already cancelled!");
+        boolean isCancelSuccess = booking.processCancellation();
+
     }
 }

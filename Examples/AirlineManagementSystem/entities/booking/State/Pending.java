@@ -10,15 +10,30 @@ public class Pending extends BookingState {
         super(booking, BookingStatus.PENDING);
     }
 
-    // ->
     @Override
-    public boolean confirm(Payment payment) {
-
+    public void notifyBooking() {
+        System.out.println("Booking is pending. No notification is needed");
     }
 
     @Override
-    public boolean cancel() {
+    public Payment book() {
+        Payment payment = booking.processBooking();
+        if(payment==null) booking.notifyAndSetBookingState(new Failed(booking));
+        else booking.notifyAndSetBookingState(new Reserved(booking));
+        return payment;
+    }
 
+    @Override
+    public void confirm(Payment payment) {
+        boolean isPaymentSuccess = payment.pay();
+        if(isPaymentSuccess) booking.notifyAndSetBookingState(new Confirmed(booking));
+        else booking.notifyAndSetBookingState(new Failed(booking));
+    }
+
+    @Override
+    public void cancel() {
+        System.out.println("Booking was cancelled!");
+        booking.notifyAndSetBookingState(new Cancelled(booking));
     }
 
 

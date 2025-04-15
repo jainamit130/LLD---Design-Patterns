@@ -15,4 +15,9 @@ public class Failed extends PaymentState {
         if(isPaymentSuccess) payment.setPaymentState(new Paid(payment));
         else payment.setPaymentState(new Failed(payment));
     }
+
+    @Override
+    public void refund(double refundPercent) {
+        System.out.println("This payment was failed! no refund possible on a failed payment");
+    }
 }

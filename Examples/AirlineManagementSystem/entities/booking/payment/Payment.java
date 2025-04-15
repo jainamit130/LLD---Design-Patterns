@@ -9,12 +9,20 @@ public class Payment {
     private final Booking booking;
     private PaymentStrategy paymentStrategy;
     private PaymentState paymentState;
-    private final double amount;
+    private double amount;
+    private double paidAmount;
+    private double refundedAmount;
 
     public Payment(Booking booking, double amount) {
         this.booking = booking;
         this.paymentState = new Pending(this);
         this.amount = amount;
+        this.paidAmount = 0;
+        this.refundedAmount = 0;
+    }
+
+    public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
     }
 
     public void process() {
@@ -22,10 +30,15 @@ public class Payment {
     }
 
     public boolean pay() {
-        boolean isPaymentSuccess = paymentStrategy.processPayment(this);
-        if(isPaymentSuccess) booking.notifyBookingSuccess();
-        else booking.notifyBookingFailure();
-        return isPaymentSuccess;
+        return  paymentStrategy.processPayment(this);
+    }
+
+    public void payAmount(double amount) {
+        this.paidAmount += amount;
+    }
+
+    public void refundAmount(double refundPercent) {
+        this.refundedAmount += (amount*refundPercent)/100.00;
     }
 
     public void setPaymentState(PaymentState paymentState) {

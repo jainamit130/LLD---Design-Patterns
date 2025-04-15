@@ -2,10 +2,11 @@ package Examples.AirlineManagementSystem.entities.enums;
 
 public enum BookingStatus {
     PENDING,       // Seat is temporarily held, payment in progress
+    RESERVED,
     CONFIRMED,     // Payment successful, seat locked
     CANCELLED,     // User or system cancelled the booking
     EXPIRED,       // Payment window expired, seat released
-    FAILED         // Payment failed or system error
+    FAILED         // Payment failed or Invalid Booking
 }
 
 

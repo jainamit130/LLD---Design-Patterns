@@ -12,4 +12,9 @@ public class Refunded extends PaymentState {
     public void process() {
         System.out.println("Payment has already been refunded!");
     }
+
+    @Override
+    public void refund(double refundPercent) {
+        payment.refundAmount(refundPercent);
+    }
 }

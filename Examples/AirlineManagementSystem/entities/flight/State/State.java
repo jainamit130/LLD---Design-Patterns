@@ -1,5 +1,6 @@
 package Examples.AirlineManagementSystem.entities.flight.State;
 
+import Examples.AirlineManagementSystem.entities.booking.Booking;
 import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.enums.FlightStatus;
 import Examples.AirlineManagementSystem.entities.flight.Flight;
@@ -36,6 +37,7 @@ public abstract class State {
         notifyPassengers();
     }
 
+    public abstract double getRefundAmount(Booking booking);
     public abstract void scheduleFlight(Instant departureTime);
     public abstract void divertFlight(Airport airport);
 }

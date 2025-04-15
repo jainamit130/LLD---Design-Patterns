@@ -16,7 +16,7 @@ public class Pending extends PaymentState {
     }
 
     @Override
-    public void refund() {
+    public void refund(double refundPercent) {
         System.out.println("Payment is in pending state and hence cannot be refunded!");
     }
 }

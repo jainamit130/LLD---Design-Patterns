@@ -7,7 +7,7 @@ public class Seat {
     private final String seatId;
     private final Aircraft aircraft;
     private final SeatType seatType;
-    private final SeatStatus seatStatus;
+    private SeatStatus seatStatus;
 
     public Seat(String seatId, Aircraft aircraft, SeatType seatType) {
         this.seatId = seatId;
@@ -32,4 +32,6 @@ public class Seat {
     public boolean isVacant() {
         return seatStatus.equals(SeatStatus.VACANT);
     }
+
+    public void reserveSeat() { seatStatus = SeatStatus.RESERVED; }
 }

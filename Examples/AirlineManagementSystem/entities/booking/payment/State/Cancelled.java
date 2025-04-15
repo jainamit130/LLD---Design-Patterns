@@ -13,4 +13,9 @@ public class Cancelled extends PaymentState {
     public void process() {
         System.out.println("This payment was cancelled!");
     }
+
+    @Override
+    public void refund(double refundPercent) {
+        System.out.println("The payment was cancelled! Hence no refund possible");
+    }
 }

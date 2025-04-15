@@ -15,8 +15,7 @@ public class Paid extends PaymentState {
     }
 
     @Override
-    public void refund() {
-        // 30% would be refunded after payment
-
+    public void refund(double refundPercent) {
+        payment.refundAmount(refundPercent);
     }
 }
