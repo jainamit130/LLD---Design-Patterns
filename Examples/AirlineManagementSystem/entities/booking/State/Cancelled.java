@@ -15,18 +15,25 @@ public class Cancelled extends BookingState {
     }
 
     @Override
-    public Payment book() {
-        System.out.println("Booking is cancelled! Please create another booking");
-        return null;
+    public boolean validate() {
+        booking.notifyAndSetBookingState(new Pending(booking));
+        return booking.validateBooking();
     }
 
     @Override
-    public void confirm(Payment payment) {
-        System.out.println("Booking is cancelled! Please create another booking");
+    public boolean reserve() {
+        return booking.validateBooking();
     }
 
     @Override
-    public void cancel() {
+    public boolean confirm(Payment payment) {
+        System.out.println("Booking is cancelled! Please create another booking");
+        return false;
+    }
+
+    @Override
+    public boolean cancel() {
         System.out.println("Booking is already cancelled!");
+        return false;
     }
 }

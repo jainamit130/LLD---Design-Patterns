@@ -15,14 +15,16 @@ public abstract class BookingState {
 
     public abstract void notifyBooking();
 
+    public abstract boolean validate();
+
     // Failed, Expired ---Reserve Seat With Timeout---> Pending
-    public abstract Payment book();
+    public abstract boolean reserve();
 
     // Pending ----Reserve Seat Permanently----> Confirmed
     // Pending ----Release Seat ----> Failed
-    public abstract void confirm(Payment payment);
+    public abstract boolean confirm(Payment payment);
 
     // Pending ----Release Seat-----> Cancelled
     // Confirmed ----Release Seat-----> Cancelled (trigger Refund flow)
-    public abstract void cancel();
+    public abstract boolean cancel();
 }

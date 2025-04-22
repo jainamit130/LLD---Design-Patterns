@@ -15,17 +15,37 @@ public class Reserved extends BookingState {
     }
 
     @Override
-    public Payment book() {
-        return null;
+    public boolean validate() {
+        System.out.println("Booking is already validated and reserved");
+        return true;
     }
 
     @Override
-    public void confirm(Payment payment) {
-
+    public boolean reserve() {
+        System.out.println("Booking is already reserved! You have few minutes left!");
+        return true;
     }
 
     @Override
-    public void cancel() {
+    public boolean confirm(Payment payment) {
+        boolean isPaymentSuccessful = payment.pay();
+        if(isPaymentSuccessful) {
+            booking.notifyAndSetBookingState(new Confirmed(booking));
+        } else {
+            System.out.println("Payment Failure caused booking failure");
+            booking.notifyAndSetBookingState(new Failed(booking));
+        }
+        return isPaymentSuccessful;
+    }
 
+    @Override
+    public boolean cancel() {
+        boolean isBookingCancelled = booking.expire();
+        if(isBookingCancelled) {
+            booking.notifyAndSetBookingState(new Cancelled(booking));
+        } else {
+            System.out.println("Booking cancellation failed try again!");
+        }
+        return isBookingCancelled;
     }
 }

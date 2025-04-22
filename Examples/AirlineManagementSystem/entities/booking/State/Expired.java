@@ -15,16 +15,25 @@ public class Expired extends BookingState {
     }
 
     @Override
-    public Payment book() {
-        return null;
+    public boolean validate() {
+        booking.notifyAndSetBookingState(new Pending(booking));
+        return booking.validateBooking();
     }
 
     @Override
-    public void confirm(Payment payment) {
-
+    public boolean reserve() {
+        return booking.validateBooking();
     }
 
     @Override
-    public void cancel() {
+    public boolean confirm(Payment payment) {
+        System.out.println("Booking has expired! Try booking again.");
+        return false;
+    }
+
+    @Override
+    public boolean cancel() {
+        System.out.println("Booking has already expired!");
+        return false;
     }
 }

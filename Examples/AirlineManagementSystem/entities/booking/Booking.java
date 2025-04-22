@@ -5,16 +5,14 @@ import Examples.AirlineManagementSystem.BookingManagement;
 import Examples.AirlineManagementSystem.entities.aircraft.Seat;
 import Examples.AirlineManagementSystem.entities.booking.State.BookingState;
 import Examples.AirlineManagementSystem.entities.booking.State.Pending;
-import Examples.AirlineManagementSystem.entities.booking.State.Reserved;
 import Examples.AirlineManagementSystem.entities.booking.payment.Payment;
 import Examples.AirlineManagementSystem.entities.flight.Flight;
 import Examples.AirlineManagementSystem.entities.user.Passenger;
 import Examples.AirlineManagementSystem.entities.user.RegisteredUser;
 
 import java.util.List;
-import java.util.concurrent.Delayed;
 
-public class Booking implements Delayed {
+public class Booking {
     private final String bookingId;
     private final RegisteredUser user;
     private final Flight flight;
@@ -23,7 +21,6 @@ public class Booking implements Delayed {
     private List<Seat> seats;
     private List<Passenger> passengers;
     private final BookingManagement bookingManagement;
-    private final long timeout;
     private final double refundPercent;
 
     public Booking(String bookingId, RegisteredUser user, Flight flight, List<Seat> seats, List<Passenger> passengers) {
@@ -36,20 +33,38 @@ public class Booking implements Delayed {
         this.bookingState = new Pending(this);
         this.payment = null;
         bookingManagement = BookingManagement.getInstance();
-        this.timeout = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(300000);
         this.refundPercent = AirlineManagementSystem.REFUND_PERCENT;
     }
 
+    public String getBookingId() {return bookingId;}
+
     public double getRefundAmount() {
         return flight.getRefundAmount(this);
+    }
+
+    public Flight getFlight() {
+        return flight;
     }
 
     private void setBookingState(BookingState state) {
         bookingState = state;
     }
 
-    public Flight getFlight() {
-        return flight;
+    public void setPayment(Payment payment) { this.payment = payment; }
+
+    private double calculatePrice() {
+        double price = 0.0;
+        for (Seat seat:seats) {
+            price+=seat.getPrice();
+        }
+        return price;
+    }
+
+    public boolean validateBooking() {
+        if(seats.size()!=passengers.size()) return false;
+        boolean isSeatsReservationSuccess = Seat.reserveSeats(seats);
+        if(isSeatsReservationSuccess) System.out.println("Invalid Booking!");
+        return isSeatsReservationSuccess;
     }
 
     public void notifyBooker(String message) {
@@ -63,12 +78,13 @@ public class Booking implements Delayed {
         }
     }
 
-    public Payment book() {
-        return bookingState.book();
-    }
-
-    public void confirm(Payment payment) {
-        bookingState.confirm(payment);
+    public boolean confirm(Payment payment) {
+        boolean isBookingConfirmed = bookingState.confirm(payment);
+        if(isBookingConfirmed) {
+            bookingManagement.confirmBooking(this);
+            Seat.bookSeats(seats);
+        }
+        return isBookingConfirmed;
     }
 
     public void cancel() {
@@ -79,52 +95,18 @@ public class Booking implements Delayed {
         return AirlineManagementSystem.refundBooking(this);
     }
 
-    public Payment processBooking() {
-        boolean isBookingValid = validateBooking();
-        if(isBookingValid) {
-            bookingManagement.updateBooking(this);
-            return new Payment(this, calculatePrice());
-        }
-        return null;
-    }
-
-    private void reserveSeat(Seat seat) {
-        seat.reserveSeat();
-    }
-
-    private double calculatePrice() {
-        double price = 0.0;
-        for (Seat seat:seats) {
-            reserveSeat(seat);
-            price+=seat.getPrice();
-        }
-        return price;
-    }
-
-    private boolean validateBooking() {
-        if(seats.size()!=passengers.size()) return false;
-        for(Seat seat:seats) {
-            if(!seat.isVacant()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public long getDelay(TimeUnit unit) {
-        long diff = timeout - System.nanoTime();
-        return unit.convert(diff, Timeunit.MILLISECONDS);
-    }
-
-    @Override
-    public int compareTo(Delayed otherDelayedTask) {
-        return Long.compare(getDelay(Timeunit.NANOSECONDS),
-                otherDelayedTask.getDelay(Timeunit.NANOSECONDS));
+    public Payment reserveBooking() {
+        bookingManagement.reserveBooking(this);
+        return new Payment(this, calculatePrice());
     }
 
     public void notifyAndSetBookingState(BookingState state) {
         setBookingState(state);
         state.notifyBooking();
+    }
+
+    public boolean expire() {
+        bookingManagement.releaseBooking(this);
+        return Seat.releaseSeats(seats);
     }
 }

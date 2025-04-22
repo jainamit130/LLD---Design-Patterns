@@ -16,4 +16,8 @@ public class Main {
     // Register as a user
     // Book a flight which includes multiple passengers
     // Pay via credit card or cash or upi
+
+    public static void main(String[] args) {
+        System.out.println("Airline Management System");
+    }
 }

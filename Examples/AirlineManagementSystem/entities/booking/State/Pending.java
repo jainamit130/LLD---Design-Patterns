@@ -16,24 +16,34 @@ public class Pending extends BookingState {
     }
 
     @Override
-    public Payment book() {
-        Payment payment = booking.processBooking();
-        if(payment==null) booking.notifyAndSetBookingState(new Failed(booking));
-        else booking.notifyAndSetBookingState(new Reserved(booking));
-        return payment;
+    public boolean validate() {
+        if (!booking.validateBooking()) {
+            System.out.println("Booking invalid!");
+            booking.notifyAndSetBookingState(new Failed(booking));
+        }
+        return true;
     }
 
     @Override
-    public void confirm(Payment payment) {
+    public boolean reserve() {
+        booking.setPayment(booking.reserveBooking());
+        booking.notifyAndSetBookingState(new Reserved(booking));
+        return true;
+    }
+
+    @Override
+    public boolean confirm(Payment payment) {
         boolean isPaymentSuccess = payment.pay();
         if(isPaymentSuccess) booking.notifyAndSetBookingState(new Confirmed(booking));
         else booking.notifyAndSetBookingState(new Failed(booking));
+        return isPaymentSuccess;
     }
 
     @Override
-    public void cancel() {
+    public boolean cancel() {
         System.out.println("Booking was cancelled!");
         booking.notifyAndSetBookingState(new Cancelled(booking));
+        return true;
     }
 
 

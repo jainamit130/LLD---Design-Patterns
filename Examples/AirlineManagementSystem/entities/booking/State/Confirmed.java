@@ -16,19 +16,34 @@ public class Confirmed extends BookingState {
     }
 
     @Override
-    public Payment book() {
+    public boolean validate() {
         System.out.println("Booking is already confirmed");
-        return null;
+        return false;
     }
 
     @Override
-    public void confirm(Payment payment) {
+    public boolean reserve() {
+        System.out.println("Booking is already confirmed");
+        return false;
+    }
+
+    @Override
+    public boolean confirm(Payment payment) {
         System.out.println("Booking is already confirmed!");
+        return false;
     }
 
     @Override
-    public void cancel() {
+    public boolean cancel() {
         boolean isCancelSuccess = booking.processCancellation();
-
+        if(isCancelSuccess) {
+            String bookingCancellationSuccessMessage = "Booking : "+booking.toString()+ "is cancelled.";
+            String refundMessage = "Appropriate refund has been initiated";
+            booking.notifyBooker(bookingCancellationSuccessMessage+" "+refundMessage);
+            booking.notifyAll(bookingCancellationSuccessMessage);
+        } else {
+            System.out.println("Booking could not be cancelled. Please try again");
+        }
+        return isCancelSuccess;
     }
 }
