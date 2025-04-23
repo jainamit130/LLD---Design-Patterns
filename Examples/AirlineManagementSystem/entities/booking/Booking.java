@@ -39,7 +39,7 @@ public class Booking {
     public String getBookingId() {return bookingId;}
 
     public double getRefundAmount() {
-        return flight.getRefundAmount(this);
+        return payment.refundAmount(flight.getRefundPercent());
     }
 
     public Flight getFlight() {

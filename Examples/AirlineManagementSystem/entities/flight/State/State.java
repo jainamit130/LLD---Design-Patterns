@@ -37,7 +37,9 @@ public abstract class State {
         notifyPassengers();
     }
 
-    public abstract double getRefundAmount(Booking booking);
+    public abstract double getRefundPercent();
+    public abstract void departFlight();
     public abstract void scheduleFlight(Instant departureTime);
     public abstract void divertFlight(Airport airport);
+    public abstract void cancelFlight();
 }

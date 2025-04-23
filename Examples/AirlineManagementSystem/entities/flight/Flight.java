@@ -118,7 +118,15 @@ public class Flight {
         flightState.scheduleFlight(departureTime);
     }
 
-    public double getRefundAmount(Booking booking) {
-        return flightState.getRefundAmount(booking);
+    public double getRefundPercent() {
+        return flightState.getRefundPercent();
+    }
+
+    public void depart() {
+        flightState.departFlight();
+    }
+
+    public void divert(Airport destination) {
+        flightState.divert(destination);
     }
 }

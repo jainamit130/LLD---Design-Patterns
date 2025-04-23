@@ -13,12 +13,32 @@ public class Delayed extends State {
     }
 
     @Override
-    public void scheduleFlight(Instant departureTime) {
+    public double getRefundPercent() {
+        return 10.00;
+    }
 
+    @Override
+    public void departFlight() {
+        flight.setDepartureTime(Instant.now());
+        flight.setFlightState(new Rescheduled(flight,notifier));
+        flight.depart();
+    }
+
+    @Override
+    public void scheduleFlight(Instant departureTime) {
+        flight.setFlightState(new Rescheduled(flight,notifier));
+        flight.setDepartureTime(departureTime);
+        System.out.println("Flight has been rescheduled to depart at "+departureTime.toString());
     }
 
     @Override
     public void divertFlight(Airport airport) {
+        if(!flight.getDestination().equals(airport)) flight.setFlightState(new Diverted(flight,notifier));
+        flight.setDestination(airport);
+    }
 
+    @Override
+    public void cancelFlight() {
+        flight.setFlightState();
     }
 }

@@ -1,6 +1,5 @@
 package Examples.AirlineManagementSystem.entities.flight.State;
 
-import Examples.AirlineManagementSystem.entities.booking.Booking;
 import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.enums.FlightStatus;
 import Examples.AirlineManagementSystem.entities.flight.Flight;
@@ -14,17 +13,30 @@ public class Arrived extends State {
     }
 
     @Override
-    public double getRefundAmount(Booking booking) {
+    public double getRefundPercent() {
+        System.out.println("Sorry unable to refund for a flight which has already arrived the destination!");
         return 0.0;
     }
 
     @Override
-    public void scheduleFlight(Instant departureTime) {
+    public void departFlight() {
+        System.out.println("Sorry unable to depart for the same flight which has already arrived!");
+    }
 
+    @Override
+    public void scheduleFlight(Instant departureTime) {
+        System.out.println("Sorry unable to schedule a flight which has already arrived the destination!");
+        return;
     }
 
     @Override
     public void divertFlight(Airport airport) {
+        if(!flight.getDestination().equals(airport)) flight.setFlightState(new Diverted(flight,notifier));
+        flight.setDestination(airport);
+    }
 
+    @Override
+    public void cancelFlight() {
+        System.out.println("Cannot cancel a flight that has already arrived!");
     }
 }

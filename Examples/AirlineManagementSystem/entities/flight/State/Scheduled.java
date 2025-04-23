@@ -1,5 +1,6 @@
 package Examples.AirlineManagementSystem.entities.flight.State;
 
+import Examples.AirlineManagementSystem.entities.booking.Booking;
 import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.enums.FlightStatus;
 import Examples.AirlineManagementSystem.entities.flight.Flight;
@@ -10,6 +11,16 @@ import java.time.Instant;
 public class Scheduled extends State {
     public Scheduled(Flight flight, Notifier notifier) {
         super(flight, FlightStatus.DELAYED, notifier);
+    }
+
+    @Override
+    public double getRefundAmount(Booking booking) {
+        return 0;
+    }
+
+    @Override
+    public void departFlight() {
+
     }
 
     @Override
@@ -26,5 +37,10 @@ public class Scheduled extends State {
     public void divertFlight(Airport airport) {
         if(!flight.getDestination().equals(airport)) flight.setFlightState(new Diverted(flight,notifier));
         flight.setDestination(airport);
+    }
+
+    @Override
+    public void cancelFlight() {
+
     }
 }

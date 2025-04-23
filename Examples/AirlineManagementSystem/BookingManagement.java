@@ -36,6 +36,15 @@ public class BookingManagement {
         return bookingManagement;
     }
 
+    public void cancelBooking(Flight flight) {
+        releaseBooking(booking);
+        flightBookings.compute(booking.getFlight(),((flight,bookings) -> {
+            if(bookings==null) bookings = new ArrayList<>();
+            bookings.add(booking);
+            return bookings;
+        }));
+    }
+
     public void reserveBooking(Booking booking) {
         ScheduledFuture<?> bookingScheduledFuture = scheduler.schedule(() -> {
             if(booking.expire()) System.out.println("Booking expired! Try again");

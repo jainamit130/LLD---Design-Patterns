@@ -13,12 +13,31 @@ public class Cancelled extends State {
     }
 
     @Override
-    public void scheduleFlight(Instant departureTime) {
-
+    public double getRefundPercent() {
+        return 100;
     }
 
     @Override
-    public void divertFlight(Airport airport) {
+    public void departFlight() {
+        flight.setDepartureTime(Instant.now());
+        flight.setFlightState(new Rescheduled(flight,notifier));
+        flight.depart();
+    }
 
+    @Override
+    public void scheduleFlight(Instant departureTime) {
+        flight.setFlightState(new Rescheduled(flight,notifier));
+        flight.setDepartureTime(departureTime);
+        System.out.println("Flight has been rescheduled to depart at "+departureTime.toString());
+    }
+
+    @Override
+    public void divertFlight(Airport destination) {
+        System.out.println("Flight is cancelled and hence cannot be diverted!");
+    }
+
+    @Override
+    public void cancelFlight() {
+        System.out.println("Flight is already cancelled!");
     }
 }
