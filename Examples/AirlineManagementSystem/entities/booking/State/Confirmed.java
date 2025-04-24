@@ -41,6 +41,7 @@ public class Confirmed extends BookingState {
             String refundMessage = "Appropriate refund has been initiated";
             booking.notifyBooker(bookingCancellationSuccessMessage+" "+refundMessage);
             booking.notifyAll(bookingCancellationSuccessMessage);
+            booking.notifyAndSetBookingState(new Cancelled(booking));
         } else {
             System.out.println("Booking could not be cancelled. Please try again");
         }

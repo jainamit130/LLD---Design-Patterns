@@ -5,6 +5,7 @@ import Examples.AirlineManagementSystem.entities.enums.FlightStatus;
 import Examples.AirlineManagementSystem.entities.flight.Flight;
 import Examples.AirlineManagementSystem.notifier.Notifier;
 
+import java.sql.SQLOutput;
 import java.time.Instant;
 
 public class Cancelled extends State {
@@ -13,8 +14,15 @@ public class Cancelled extends State {
     }
 
     @Override
+    public boolean validateBooking() {
+        System.out.println("Flight has been cancelled! And no longer accept bookings!");
+        return false;
+    }
+
+    @Override
     public double getRefundPercent() {
-        return 100;
+        System.out.println("A refund has already been initiated for the cancelled flight!");
+        return 0.0;
     }
 
     @Override

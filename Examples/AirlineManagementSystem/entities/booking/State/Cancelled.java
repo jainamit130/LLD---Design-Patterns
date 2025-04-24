@@ -22,6 +22,7 @@ public class Cancelled extends BookingState {
 
     @Override
     public boolean reserve() {
+        booking.notifyAndSetBookingState(new Pending(booking));
         return booking.validateBooking();
     }
 

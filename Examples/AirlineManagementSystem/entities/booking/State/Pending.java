@@ -17,7 +17,7 @@ public class Pending extends BookingState {
 
     @Override
     public boolean validate() {
-        if (!booking.validateBooking()) {
+        if (!booking.validateBooking() || !booking.reserveSeats()) {
             System.out.println("Booking invalid!");
             booking.notifyAndSetBookingState(new Failed(booking));
         }
@@ -33,14 +33,23 @@ public class Pending extends BookingState {
 
     @Override
     public boolean confirm(Payment payment) {
-        boolean isPaymentSuccess = payment.pay();
-        if(isPaymentSuccess) booking.notifyAndSetBookingState(new Confirmed(booking));
-        else booking.notifyAndSetBookingState(new Failed(booking));
-        return isPaymentSuccess;
+        booking.lockFlightDuringPayment();
+        try {
+            if(booking.validateBooking()) {
+                boolean isPaymentSuccess = payment.pay();
+                if (isPaymentSuccess) booking.notifyAndSetBookingState(new Confirmed(booking));
+                else booking.notifyAndSetBookingState(new Failed(booking));
+                return isPaymentSuccess;
+            }
+            return false;
+        } finally {
+            booking.unlockFlight();
+        }
     }
 
     @Override
     public boolean cancel() {
+        booking.releaseBooking();
         System.out.println("Booking was cancelled!");
         booking.notifyAndSetBookingState(new Cancelled(booking));
         return true;

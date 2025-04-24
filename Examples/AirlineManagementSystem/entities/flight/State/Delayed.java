@@ -13,6 +13,11 @@ public class Delayed extends State {
     }
 
     @Override
+    public boolean validateBooking() {
+        return true;
+    }
+
+    @Override
     public double getRefundPercent() {
         return 10.00;
     }
@@ -39,6 +44,7 @@ public class Delayed extends State {
 
     @Override
     public void cancelFlight() {
-        flight.setFlightState();
+
+        flight.setFlightState(new Cancelled(flight,notifier));
     }
 }

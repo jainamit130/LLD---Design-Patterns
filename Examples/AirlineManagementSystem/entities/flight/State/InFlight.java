@@ -1,6 +1,5 @@
 package Examples.AirlineManagementSystem.entities.flight.State;
 
-import Examples.AirlineManagementSystem.entities.booking.Booking;
 import Examples.AirlineManagementSystem.entities.enums.FlightStatus;
 import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.flight.Flight;
@@ -14,9 +13,14 @@ public class InFlight extends State {
     }
 
     @Override
-    public double getRefundAmount(Booking booking) {
-        System.out.println("Sorry unable to refund for a flight which has already arrived the destination!");
-        return 0.0;
+    public boolean validateBooking() {
+        System.out.println("Flight is already in flight! And no longer is accepts booking.");
+        return false;
+    }
+
+    @Override
+    public double getRefundPercent() {
+        return 0;
     }
 
     @Override

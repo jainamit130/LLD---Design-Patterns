@@ -12,8 +12,10 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Flight {
+    private final ReentrantReadWriteLock lock;
     private final String flightId;
     private State flightState;
     private Airport source;
@@ -38,6 +40,7 @@ public class Flight {
         this.flightState = new Scheduled(this,notifier);
         this.crew = crew;
         this.passengers = new ArrayList<>();
+        this.lock = new ReentrantReadWriteLock();
     }
 
     public Airport getSource() {
@@ -90,6 +93,14 @@ public class Flight {
         this.arrivalTime = getDepartureTime().plus(duration);
     }
 
+    public ReentrantReadWriteLock.ReadLock readLock() {
+        return lock.readLock();
+    }
+
+    public ReentrantReadWriteLock.WriteLock writeLock() {
+        return lock.writeLock();
+    }
+
     public void setFlightState(State flightState) {
         this.flightState = flightState;
     }
@@ -128,5 +139,9 @@ public class Flight {
 
     public void divert(Airport destination) {
         flightState.divert(destination);
+    }
+
+    public boolean validateBooking() {
+        return flightState.validateBooking();
     }
 }

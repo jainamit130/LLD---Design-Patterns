@@ -37,8 +37,8 @@ public class Payment {
         this.paidAmount += amount;
     }
 
-    public void refundAmount(double refundPercent) {
-        this.refundedAmount += (amount*refundPercent)/100.00;
+    public double refundAmount(double refundPercent) {
+        return this.refundedAmount += (amount*refundPercent)/100.00;
     }
 
     public void setPaymentState(PaymentState paymentState) {

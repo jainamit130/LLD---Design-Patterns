@@ -36,11 +36,17 @@ public class BookingManagement {
         return bookingManagement;
     }
 
-    public void cancelBooking(Flight flight) {
+    public void cancelFlight(Flight cancelledFlight) {
+        flightBookings.computeIfPresent(cancelledFlight,((flight,bookings) -> {
+            bookings.stream().forEach(booking -> booking.processCancellationRefund());
+            return null;
+        }));
+    }
+
+    public void cancelBooking(Booking booking) {
         releaseBooking(booking);
         flightBookings.compute(booking.getFlight(),((flight,bookings) -> {
-            if(bookings==null) bookings = new ArrayList<>();
-            bookings.add(booking);
+            if(bookings!=null) bookings.remove(booking);
             return bookings;
         }));
     }

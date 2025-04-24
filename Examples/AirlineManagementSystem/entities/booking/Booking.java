@@ -42,6 +42,14 @@ public class Booking {
         return payment.refundAmount(flight.getRefundPercent());
     }
 
+    public void lockFlightDuringPayment() {
+        flight.readLock().lock();
+    }
+
+    public void unlockFlight() {
+        flight.readLock().unlock();
+    }
+
     public Flight getFlight() {
         return flight;
     }
@@ -61,7 +69,10 @@ public class Booking {
     }
 
     public boolean validateBooking() {
-        if(seats.size()!=passengers.size()) return false;
+        return (seats.size()!=passengers.size() || !flight.validateBooking());
+    }
+
+    public boolean reserveSeats() {
         boolean isSeatsReservationSuccess = Seat.reserveSeats(seats);
         if(isSeatsReservationSuccess) System.out.println("Invalid Booking!");
         return isSeatsReservationSuccess;
@@ -91,7 +102,16 @@ public class Booking {
         bookingState.cancel();
     }
 
+    public void releaseBooking() {
+        bookingManagement.cancelBooking(this);
+    }
+
     public boolean processCancellation() {
+        releaseBooking();
+        return processCancellationRefund();
+    }
+
+    public boolean processCancellationRefund() {
         return AirlineManagementSystem.refundBooking(this);
     }
 

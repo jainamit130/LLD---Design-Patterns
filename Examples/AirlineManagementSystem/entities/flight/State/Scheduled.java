@@ -1,6 +1,5 @@
 package Examples.AirlineManagementSystem.entities.flight.State;
 
-import Examples.AirlineManagementSystem.entities.booking.Booking;
 import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.enums.FlightStatus;
 import Examples.AirlineManagementSystem.entities.flight.Flight;
@@ -14,7 +13,12 @@ public class Scheduled extends State {
     }
 
     @Override
-    public double getRefundAmount(Booking booking) {
+    public boolean validateBooking() {
+        return true;
+    }
+
+    @Override
+    public double getRefundPercent() {
         return 0;
     }
 

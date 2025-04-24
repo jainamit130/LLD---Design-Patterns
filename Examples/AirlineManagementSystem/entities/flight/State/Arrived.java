@@ -13,6 +13,12 @@ public class Arrived extends State {
     }
 
     @Override
+    public boolean validateBooking() {
+        System.out.println("Flight has arrived! And no longer accept bookings!");
+        return false;
+    }
+
+    @Override
     public double getRefundPercent() {
         System.out.println("Sorry unable to refund for a flight which has already arrived the destination!");
         return 0.0;
