@@ -1,7 +1,6 @@
 package Examples.AirlineManagementSystem.entities.flight;
 
 import Examples.AirlineManagementSystem.entities.aircraft.Aircraft;
-import Examples.AirlineManagementSystem.entities.booking.Booking;
 import Examples.AirlineManagementSystem.entities.flight.State.Scheduled;
 import Examples.AirlineManagementSystem.entities.flight.State.State;
 import Examples.AirlineManagementSystem.entities.user.Crew;

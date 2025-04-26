@@ -9,6 +9,14 @@ public class Passenger extends User {
     private int age;
     private int baggageCount;
 
+    public Passenger(String name, String phone, String email, int age, int baggageCount) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.age = age;
+        this.baggageCount = baggageCount;
+    }
+
     public void notifyPassenger(Flight flight) {
         System.out.println("To passenger "+name+" - "+flight.getFlightId()+" has been "+flight.getFlightState().getStatus());
     }

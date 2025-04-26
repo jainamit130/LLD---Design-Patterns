@@ -1,4 +1,4 @@
-package Examples.AirlineManagementSystem.entities.booking;
+package Examples.AirlineManagementSystem.entities.booking.State;
 
 import Examples.AirlineManagementSystem.AirlineManagementSystem;
 import Examples.AirlineManagementSystem.BookingManagement;
@@ -68,21 +68,21 @@ public class Booking {
         return price;
     }
 
-    public boolean validateBooking() {
+    protected boolean validateBooking() {
         return (seats.size()!=passengers.size() || !flight.validateBooking());
     }
 
-    public boolean reserveSeats() {
+    protected boolean reserveSeats() {
         boolean isSeatsReservationSuccess = Seat.reserveSeats(seats);
         if(isSeatsReservationSuccess) System.out.println("Invalid Booking!");
         return isSeatsReservationSuccess;
     }
 
-    public void notifyBooker(String message) {
+    protected void notifyBooker(String message) {
         System.out.println("Notification to : "+user.getName()+"about : "+message);
     }
 
-    public void notifyAll(String message) {
+    protected void notifyAll(String message) {
         notifyBooker(message);
         for (Passenger passenger: passengers) {
             System.out.println("Notification to : "+passenger.getName()+"about : "+message);
@@ -98,15 +98,7 @@ public class Booking {
         return isBookingConfirmed;
     }
 
-    public void cancel() {
-        bookingState.cancel();
-    }
-
-    public void releaseBooking() {
-        bookingManagement.cancelBooking(this);
-    }
-
-    public boolean processCancellation() {
+    protected boolean processCancellation() {
         releaseBooking();
         return processCancellationRefund();
     }
@@ -115,7 +107,7 @@ public class Booking {
         return AirlineManagementSystem.refundBooking(this);
     }
 
-    public Payment reserveBooking() {
+    protected Payment reserveBooking() {
         bookingManagement.reserveBooking(this);
         return new Payment(this, calculatePrice());
     }
@@ -128,5 +120,17 @@ public class Booking {
     public boolean expire() {
         bookingManagement.releaseBooking(this);
         return Seat.releaseSeats(seats);
+    }
+
+    public void validate() { bookingState.validate(); }
+
+    public void reserve() { bookingState.reserve(); }
+
+    public void cancel() {
+        bookingState.cancel();
+    }
+
+    public void releaseBooking() {
+        bookingManagement.cancelBooking(this);
     }
 }

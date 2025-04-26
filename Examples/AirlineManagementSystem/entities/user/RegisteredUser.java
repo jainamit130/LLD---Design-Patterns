@@ -1,7 +1,7 @@
 package Examples.AirlineManagementSystem.entities.user;
 
-import Examples.AirlineManagementSystem.entities.booking.Booking;
-import Examples.AirlineManagementSystem.service.BookingService;
+import Examples.AirlineManagementSystem.entities.booking.State.Booking;
+import Examples.AirlineManagementSystem.service.Booking.BookingService;
 
 public class RegisteredUser extends User {
 

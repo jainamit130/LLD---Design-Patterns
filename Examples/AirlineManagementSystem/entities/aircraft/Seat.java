@@ -20,7 +20,6 @@ public class Seat {
         this.seatType = seatType;
         this.seatStatus = SeatStatus.VACANT;
         this.lock = new ReentrantLock();
-
     }
 
     private void releaseSeat() { seatStatus = SeatStatus.VACANT; }

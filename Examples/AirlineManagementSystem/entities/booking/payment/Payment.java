@@ -1,6 +1,6 @@
 package Examples.AirlineManagementSystem.entities.booking.payment;
 
-import Examples.AirlineManagementSystem.entities.booking.Booking;
+import Examples.AirlineManagementSystem.entities.booking.State.Booking;
 import Examples.AirlineManagementSystem.entities.booking.payment.State.PaymentState;
 import Examples.AirlineManagementSystem.entities.booking.payment.State.Pending;
 import Examples.AirlineManagementSystem.service.payment.PaymentStrategy;

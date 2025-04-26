@@ -1,6 +1,6 @@
 package Examples.AirlineManagementSystem;
 
-import Examples.AirlineManagementSystem.entities.booking.Booking;
+import Examples.AirlineManagementSystem.entities.booking.State.Booking;
 import Examples.AirlineManagementSystem.entities.flight.Flight;
 
 import java.util.ArrayList;
@@ -38,9 +38,10 @@ public class BookingManagement {
 
     public void cancelFlight(Flight cancelledFlight) {
         flightBookings.computeIfPresent(cancelledFlight,((flight,bookings) -> {
-            bookings.stream().forEach(booking -> booking.processCancellationRefund());
+            bookings.stream().forEach(booking -> AirlineManagementSystem.refundBooking(booking));
             return null;
         }));
+        flightBookings.remove(cancelledFlight);
     }
 
     public void cancelBooking(Booking booking) {
