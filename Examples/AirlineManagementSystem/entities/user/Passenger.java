@@ -1,6 +1,6 @@
 package Examples.AirlineManagementSystem.entities.user;
 
-import Examples.AirlineManagementSystem.entities.flight.Flight;
+import Examples.AirlineManagementSystem.entities.flight.State.Flight;
 
 public class Passenger extends User {
     private String name;
@@ -18,7 +18,7 @@ public class Passenger extends User {
     }
 
     public void notifyPassenger(Flight flight) {
-        System.out.println("To passenger "+name+" - "+flight.getFlightId()+" has been "+flight.getFlightState().getStatus());
+        System.out.println("To passenger "+name+" - "+flight.getFlightId()+" - "+flight.getFlightState().getStatus());
     }
 
     public String getName() {

@@ -1,6 +1,6 @@
 package Examples.AirlineManagementSystem.filter;
 
-import Examples.AirlineManagementSystem.entities.flight.Flight;
+import Examples.AirlineManagementSystem.entities.flight.State.Flight;
 
 import java.util.ArrayList;
 import java.util.List;

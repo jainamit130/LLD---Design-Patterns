@@ -1,8 +1,6 @@
 package Examples.AirlineManagementSystem.entities.flight.State;
 
-import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.enums.FlightStatus;
-import Examples.AirlineManagementSystem.entities.flight.Flight;
 import Examples.AirlineManagementSystem.notifier.Notifier;
 
 import java.time.Instant;
@@ -24,27 +22,22 @@ public class Delayed extends State {
 
     @Override
     public void departFlight() {
-        flight.setDepartureTime(Instant.now());
-        flight.setFlightState(new Rescheduled(flight,notifier));
+        processSchedule(Instant.now());
         flight.depart();
     }
 
     @Override
-    public void scheduleFlight(Instant departureTime) {
-        flight.setFlightState(new Rescheduled(flight,notifier));
-        flight.setDepartureTime(departureTime);
-        System.out.println("Flight has been rescheduled to depart at "+departureTime.toString());
+    public void landFlight() {
+        System.out.println("Only a Flight in In-Flight status can land!");
     }
 
     @Override
-    public void divertFlight(Airport airport) {
-        if(!flight.getDestination().equals(airport)) flight.setFlightState(new Diverted(flight,notifier));
-        flight.setDestination(airport);
+    public void scheduleFlight(Instant departureTime) {
+        processSchedule(departureTime);
     }
 
     @Override
     public void cancelFlight() {
-
         flight.setFlightState(new Cancelled(flight,notifier));
     }
 }

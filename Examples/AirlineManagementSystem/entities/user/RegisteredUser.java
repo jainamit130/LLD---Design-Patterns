@@ -2,6 +2,7 @@ package Examples.AirlineManagementSystem.entities.user;
 
 import Examples.AirlineManagementSystem.entities.booking.State.Booking;
 import Examples.AirlineManagementSystem.service.Booking.BookingService;
+import Examples.AirlineManagementSystem.entities.booking.payment.Payment;
 
 public class RegisteredUser extends User {
 
@@ -9,8 +10,13 @@ public class RegisteredUser extends User {
     protected Account account;
 
     // Should be able to book flights
-    void bookFlight(BookingService bookingService, Booking booking) {
+    Booking bookFlight(BookingService bookingService, Booking booking) {
+        return bookingService.book(booking);
+    }
 
+    Booking confirm(BookingService bookingService, Booking booking, Payment payment) {
+        bookingService.confirm(booking,payment);
+        return booking;
     }
 
     public String getName() {

@@ -48,8 +48,7 @@ public class Pending extends BookingState {
 
     @Override
     public boolean cancel() {
-        booking.releaseBooking();
-        System.out.println("Booking was cancelled!");
+        if(booking.releaseBooking()) System.out.println("Booking was cancelled!");
         booking.notifyAndSetBookingState(new Cancelled(booking));
         return true;
     }

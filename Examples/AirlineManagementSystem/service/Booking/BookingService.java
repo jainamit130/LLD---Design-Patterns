@@ -3,25 +3,28 @@ package Examples.AirlineManagementSystem.service.Booking;
 import Examples.AirlineManagementSystem.entities.booking.State.Booking;
 import Examples.AirlineManagementSystem.entities.booking.payment.Payment;
 
-public class BookingService implements IBookingService {
+public class BookingService {
 
-    @Override
-    public boolean validate(Booking booking) {
-        return booking.validate();
+    private void validate(Booking booking) {
+        booking.validate();
     }
 
-    @Override
-    public boolean reserve(Booking booking) {
-        return false;
+     void reserve(Booking booking) {
+        booking.reserve();
     }
 
-    @Override
-    public boolean confirm(Booking booking, Payment payment) {
-        return false;
+    public void confirm(Booking booking, Payment payment) {
+        booking.confirm(payment);
     }
 
-    @Override
-    public boolean cancel(Booking booking) {
-        return false;
+    public void cancel(Booking booking) {
+        booking.cancel();
     }
+
+    public final Booking book(Booking booking) {
+        validate(booking);
+        reserve(booking);
+        return booking;
+    }
+
 }

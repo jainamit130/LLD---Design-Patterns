@@ -11,11 +11,11 @@ public class Crew extends Staff {
     private Airport source;
     private final AvailabilityManagement availabilityManagement;
 
-    public Crew(String crewId, String name, Airport source, LocalDate availabilityStartDate, LocalDate availabilityEndDate, AvailabilityManagement availabilityManagement) {
+    public Crew(String crewId, String name, Airport source) {
         this.crewId = crewId;
         this.name = name;
         this.source = source;
-        this.availabilityManagement = availabilityManagement;
+        this.availabilityManagement = AvailabilityManagement.getInstance();
         this.availabilityManagement.setSourceForCrew(this,null,this.source);
     }
 

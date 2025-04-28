@@ -1,8 +1,7 @@
-package Examples.AirlineManagementSystem.entities.flight;
+package Examples.AirlineManagementSystem.entities.flight.State;
 
 import Examples.AirlineManagementSystem.entities.aircraft.Aircraft;
-import Examples.AirlineManagementSystem.entities.flight.State.Scheduled;
-import Examples.AirlineManagementSystem.entities.flight.State.State;
+import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.user.Crew;
 import Examples.AirlineManagementSystem.entities.user.Passenger;
 import Examples.AirlineManagementSystem.notifier.Notifier;
@@ -15,29 +14,35 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Flight {
     private final ReentrantReadWriteLock lock;
-    private final String flightId;
+    private Instant actualArrivalTime;
     private State flightState;
     private Airport source;
     private Airport destination;
     private Aircraft aircraft;
     private Instant departureTime;
+    private final Instant originalDepartureTime;
+    private final Airport originalSource;
+    private final String flightId;
     private Instant arrivalTime;
     private Duration duration;
     private List<Passenger> passengers;
-    private List<Crew> crew;
+    private List<Crew> crews;
     private double price;
 
-    public Flight(String flightId, Airport source, Airport destination, Aircraft aircraft, Instant departureTime, Duration duration, List<Crew> crew, Notifier notifier, double price) {
+    public Flight(String flightId, Airport source, Airport destination, Aircraft aircraft, Instant departureTime, Duration duration, Notifier notifier, double price) {
         this.flightId = flightId;
         this.source = source;
         this.destination = destination;
         this.aircraft = aircraft;
         this.departureTime = departureTime;
+        this.originalDepartureTime = departureTime;
         this.duration = duration;
         this.price = price;
         this.arrivalTime = departureTime.plus(duration);
+        this.actualArrivalTime = null;
         this.flightState = new Scheduled(this,notifier);
-        this.crew = crew;
+        this.originalSource = source;
+        this.crews = new ArrayList<>();
         this.passengers = new ArrayList<>();
         this.lock = new ReentrantReadWriteLock();
     }
@@ -48,6 +53,12 @@ public class Flight {
 
     public Airport getDestination() {
         return destination;
+    }
+
+    public Instant getOriginalDepartureTime() {return originalDepartureTime;}
+
+    public Airport getOriginalSource() {
+        return originalSource;
     }
 
     public Instant getDepartureTime() {
@@ -78,13 +89,21 @@ public class Flight {
         return passengers;
     }
 
-    public List<Crew> getCrew() {
-        return crew;
+    public List<Crew> getCrews() {
+        return crews;
     }
 
-    public void setDepartureTime(Instant departureTime) {
+    public void addCrew(Crew crew) {
+        crews.add(crew);
+    }
+
+    void setDepartureTime(Instant departureTime) {
         this.departureTime = departureTime;
         this.arrivalTime = getDepartureTime().plus(duration);
+    }
+
+    public void setActualArrivalTime(Instant actualArrivalTime) {
+        this.actualArrivalTime = actualArrivalTime;
     }
 
     public void setDuration(Duration duration) {
@@ -120,8 +139,8 @@ public class Flight {
         this.passengers = passengers;
     }
 
-    public void setCrew(List<Crew> crew) {
-        this.crew = crew;
+    public void setCrews(List<Crew> crews) {
+        this.crews = crews;
     }
 
     public void schedule(Instant departureTime) {
@@ -136,11 +155,15 @@ public class Flight {
         flightState.departFlight();
     }
 
-    public void divert(Airport destination) {
-        flightState.divert(destination);
+    public void cancel() {
+        flightState.cancelFlight();
     }
 
     public boolean validateBooking() {
         return flightState.validateBooking();
+    }
+
+    public void arrive() {
+        this.actualArrivalTime = Instant.now();
     }
 }

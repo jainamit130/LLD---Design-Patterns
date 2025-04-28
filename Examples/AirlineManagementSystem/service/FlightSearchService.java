@@ -1,10 +1,9 @@
 package Examples.AirlineManagementSystem.service;
 
-import Examples.AirlineManagementSystem.entities.flight.Flight;
+import Examples.AirlineManagementSystem.entities.flight.State.Flight;
 import Examples.AirlineManagementSystem.filter.FilterSystem;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;

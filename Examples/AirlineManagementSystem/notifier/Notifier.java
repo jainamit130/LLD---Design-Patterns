@@ -1,6 +1,6 @@
 package Examples.AirlineManagementSystem.notifier;
 
-import Examples.AirlineManagementSystem.entities.flight.Flight;
+import Examples.AirlineManagementSystem.entities.flight.State.Flight;
 
 public class Notifier {
 

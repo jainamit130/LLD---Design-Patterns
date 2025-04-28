@@ -1,6 +1,6 @@
 package Examples.AirlineManagementSystem.entities.user;
 
-import Examples.AirlineManagementSystem.entities.flight.Flight;
+import Examples.AirlineManagementSystem.entities.flight.State.Flight;
 import Examples.AirlineManagementSystem.filter.FilterSystem;
 import Examples.AirlineManagementSystem.service.FlightSearchService;
 

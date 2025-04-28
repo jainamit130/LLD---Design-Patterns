@@ -1,7 +1,7 @@
 package Examples.AirlineManagementSystem;
 
 import Examples.AirlineManagementSystem.entities.booking.State.Booking;
-import Examples.AirlineManagementSystem.entities.flight.Flight;
+import Examples.AirlineManagementSystem.entities.flight.State.Flight;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +28,9 @@ public class BookingManagement {
         BookingManagement bookingManagement = instance;
         if(bookingManagement==null) {
             synchronized(BookingManagement.class) {
-                if(instance==null) {
-                    instance = new BookingManagement();
+                bookingManagement = instance;
+                if(bookingManagement==null) {
+                    instance = bookingManagement = new BookingManagement();
                 }
             }
         }
@@ -37,6 +38,7 @@ public class BookingManagement {
     }
 
     public void cancelFlight(Flight cancelledFlight) {
+        cancelledFlight.cancel();
         flightBookings.computeIfPresent(cancelledFlight,((flight,bookings) -> {
             bookings.stream().forEach(booking -> AirlineManagementSystem.refundBooking(booking));
             return null;

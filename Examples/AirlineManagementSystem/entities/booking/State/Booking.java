@@ -3,10 +3,8 @@ package Examples.AirlineManagementSystem.entities.booking.State;
 import Examples.AirlineManagementSystem.AirlineManagementSystem;
 import Examples.AirlineManagementSystem.BookingManagement;
 import Examples.AirlineManagementSystem.entities.aircraft.Seat;
-import Examples.AirlineManagementSystem.entities.booking.State.BookingState;
-import Examples.AirlineManagementSystem.entities.booking.State.Pending;
 import Examples.AirlineManagementSystem.entities.booking.payment.Payment;
-import Examples.AirlineManagementSystem.entities.flight.Flight;
+import Examples.AirlineManagementSystem.entities.flight.State.Flight;
 import Examples.AirlineManagementSystem.entities.user.Passenger;
 import Examples.AirlineManagementSystem.entities.user.RegisteredUser;
 
@@ -99,8 +97,7 @@ public class Booking {
     }
 
     protected boolean processCancellation() {
-        releaseBooking();
-        return processCancellationRefund();
+        return releaseBooking() && processCancellationRefund();
     }
 
     public boolean processCancellationRefund() {
@@ -130,7 +127,8 @@ public class Booking {
         bookingState.cancel();
     }
 
-    public void releaseBooking() {
+    public boolean releaseBooking() {
         bookingManagement.cancelBooking(this);
+        return Seat.releaseSeats(seats);
     }
 }

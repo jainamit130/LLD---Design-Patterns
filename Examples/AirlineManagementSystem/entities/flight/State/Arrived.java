@@ -1,8 +1,6 @@
 package Examples.AirlineManagementSystem.entities.flight.State;
 
-import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.enums.FlightStatus;
-import Examples.AirlineManagementSystem.entities.flight.Flight;
 import Examples.AirlineManagementSystem.notifier.Notifier;
 
 import java.time.Instant;
@@ -30,15 +28,14 @@ public class Arrived extends State {
     }
 
     @Override
-    public void scheduleFlight(Instant departureTime) {
-        System.out.println("Sorry unable to schedule a flight which has already arrived the destination!");
-        return;
+    public void landFlight() {
+        System.out.println("Sorry unable to land for the same flight which has already arrived!");
     }
 
     @Override
-    public void divertFlight(Airport airport) {
-        if(!flight.getDestination().equals(airport)) flight.setFlightState(new Diverted(flight,notifier));
-        flight.setDestination(airport);
+    public void scheduleFlight(Instant departureTime) {
+        System.out.println("Sorry unable to schedule a flight which has already arrived the destination!");
+        return;
     }
 
     @Override
