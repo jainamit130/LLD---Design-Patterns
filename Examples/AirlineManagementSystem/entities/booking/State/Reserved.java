@@ -27,14 +27,14 @@ public class Reserved extends BookingState {
 
     @Override
     public boolean confirm(Payment payment) {
-        boolean isPaymentSuccessful = payment.pay();
-        if(isPaymentSuccessful) {
+        if(booking.validateBooking() && payment.pay()) {
             booking.notifyAndSetBookingState(new Confirmed(booking));
+            return true;
         } else {
             System.out.println("Payment Failure caused booking failure");
             booking.notifyAndSetBookingState(new Failed(booking));
         }
-        return isPaymentSuccessful;
+        return false;
     }
 
     @Override

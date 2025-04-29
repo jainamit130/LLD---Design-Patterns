@@ -11,7 +11,8 @@ public class Crew extends Staff {
     private Airport source;
     private final AvailabilityManagement availabilityManagement;
 
-    public Crew(String crewId, String name, Airport source) {
+    public Crew(String userId, String name, Account account,Airport source) {
+        super(userId,name,account);
         this.crewId = crewId;
         this.name = name;
         this.source = source;

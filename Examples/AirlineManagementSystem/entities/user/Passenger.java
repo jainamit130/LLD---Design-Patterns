@@ -9,7 +9,8 @@ public class Passenger extends User {
     private int age;
     private int baggageCount;
 
-    public Passenger(String name, String phone, String email, int age, int baggageCount) {
+    public Passenger(String userId,String name, String phone, String email, int age, int baggageCount) {
+        super(userId);
         this.name = name;
         this.phone = phone;
         this.email = email;

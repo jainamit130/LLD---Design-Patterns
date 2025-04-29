@@ -22,6 +22,7 @@ public class Scheduled extends State {
 
     @Override
     public void departFlight() {
+        if(!flight.validateFlight()) System.out.println("Flight validation failed!");
         processSchedule(Instant.now());
         flight.setFlightState(new InFlight(flight,notifier));
     }
@@ -36,9 +37,8 @@ public class Scheduled extends State {
         State newState = this;
         if(flight.getOriginalDepartureTime().isBefore(departureTime))
             newState = new Delayed(flight,notifier);
-        else newState = new Rescheduled(flight,notifier);
         flight.setFlightState(newState);
-        flight.schedule(departureTime);
+        flight.setDepartureTime(departureTime);
     }
 
     @Override

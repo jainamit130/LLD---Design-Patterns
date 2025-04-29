@@ -23,7 +23,7 @@ public class Delayed extends State {
     @Override
     public void departFlight() {
         processSchedule(Instant.now());
-        flight.depart();
+        flight.setFlightState(new InFlight(flight,notifier));
     }
 
     @Override

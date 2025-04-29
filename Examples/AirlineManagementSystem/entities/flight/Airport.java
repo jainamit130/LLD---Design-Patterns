@@ -24,4 +24,11 @@ public class Airport {
         this.airportId = airportId;
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "address='" + address + '\'' +
+                '}';
+    }
 }

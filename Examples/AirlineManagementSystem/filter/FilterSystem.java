@@ -12,6 +12,10 @@ public class FilterSystem {
     private List<Filter> filters;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
+    public FilterSystem(List<Filter> filters) {
+        this.filters = filters;
+    }
+
     public boolean addFilter(Filter filter) {
         lock.writeLock().lock();
         try {

@@ -34,7 +34,19 @@ public class Booking {
         this.refundPercent = AirlineManagementSystem.REFUND_PERCENT;
     }
 
+    public boolean belongsTo(RegisteredUser user) {
+        return this.user.equals(user);
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
     public String getBookingId() {return bookingId;}
+
+    public double getRefundPercent() {
+        return flight.getRefundPercent();
+    }
 
     public double getRefundAmount() {
         return payment.refundAmount(flight.getRefundPercent());
@@ -67,7 +79,10 @@ public class Booking {
     }
 
     protected boolean validateBooking() {
-        return (seats.size()!=passengers.size() || !flight.validateBooking());
+        for (Seat seat: seats) {
+            if(!flight.validateSeat(seat)) return false;
+        }
+        return (seats.size()==passengers.size() && flight.validateBooking());
     }
 
     protected boolean reserveSeats() {
@@ -130,5 +145,10 @@ public class Booking {
     public boolean releaseBooking() {
         bookingManagement.cancelBooking(this);
         return Seat.releaseSeats(seats);
+    }
+
+    @Override
+    public String toString() {
+        return "Booking {" + "bookingId = " + bookingId + "} ";
     }
 }

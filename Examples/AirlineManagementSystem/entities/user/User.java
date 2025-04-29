@@ -8,7 +8,12 @@ import java.util.List;
 
 public abstract class User {
     protected String userId;
-    protected List<Flight> searchFlights(FlightSearchService flightSearchService, FilterSystem filterSystem) {
+
+    public User(String userId) {
+        this.userId = userId;
+    }
+
+    public List<Flight> searchFlights(FlightSearchService flightSearchService, FilterSystem filterSystem) {
         return flightSearchService.searchFlights(filterSystem);
     }
 }

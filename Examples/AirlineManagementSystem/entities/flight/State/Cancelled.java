@@ -20,7 +20,7 @@ public class Cancelled extends State {
     @Override
     public double getRefundPercent() {
         System.out.println("A refund has already been initiated for the cancelled flight!");
-        return 0.0;
+        return 100.0;
     }
 
     @Override

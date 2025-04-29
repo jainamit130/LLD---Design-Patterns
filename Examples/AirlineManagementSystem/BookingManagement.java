@@ -40,10 +40,12 @@ public class BookingManagement {
     public void cancelFlight(Flight cancelledFlight) {
         cancelledFlight.cancel();
         flightBookings.computeIfPresent(cancelledFlight,((flight,bookings) -> {
-            bookings.stream().forEach(booking -> AirlineManagementSystem.refundBooking(booking));
+            List<Booking> copy = new ArrayList<>(bookings);
+            for (Booking booking : copy) {
+                booking.cancel();
+            }
             return null;
         }));
-        flightBookings.remove(cancelledFlight);
     }
 
     public void cancelBooking(Booking booking) {

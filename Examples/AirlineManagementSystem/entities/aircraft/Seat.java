@@ -22,6 +22,10 @@ public class Seat {
         this.lock = new ReentrantLock();
     }
 
+    public Aircraft getAircraft() {
+        return aircraft;
+    }
+
     private void releaseSeat() { seatStatus = SeatStatus.VACANT; }
 
     private void reserveSeat() { seatStatus = SeatStatus.RESERVED; }

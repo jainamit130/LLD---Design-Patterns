@@ -1,6 +1,7 @@
 package Examples.AirlineManagementSystem.entities.flight.State;
 
 import Examples.AirlineManagementSystem.entities.aircraft.Aircraft;
+import Examples.AirlineManagementSystem.entities.aircraft.Seat;
 import Examples.AirlineManagementSystem.entities.flight.Airport;
 import Examples.AirlineManagementSystem.entities.user.Crew;
 import Examples.AirlineManagementSystem.entities.user.Passenger;
@@ -147,6 +148,12 @@ public class Flight {
         flightState.scheduleFlight(departureTime);
     }
 
+    public boolean validateFlight() {
+        // check for validations like crew attendance should be atleast 2
+        if(crews.size()<2) System.out.println("Invalid number of flight attendees!");
+        return crews.size()>=2;
+    }
+
     public double getRefundPercent() {
         return flightState.getRefundPercent();
     }
@@ -165,5 +172,18 @@ public class Flight {
 
     public void arrive() {
         this.actualArrivalTime = Instant.now();
+    }
+
+    public boolean validateSeat(Seat seat) {
+        return seat.getAircraft().equals(aircraft);
+    }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "source=" + source +
+                ", destination=" + destination +
+                ", flightId='" + flightId + '\'' +
+                '}';
     }
 }

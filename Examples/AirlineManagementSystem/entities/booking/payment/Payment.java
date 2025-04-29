@@ -21,6 +21,16 @@ public class Payment {
         this.refundedAmount = 0;
     }
 
+    public boolean validatePayment() {
+        // check for the payment details and strategy provided or use 3rd party services to validate details
+        // for now checking just for null
+        return paymentStrategy!=null;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
     public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
         this.paymentStrategy = paymentStrategy;
     }

@@ -59,14 +59,17 @@ public class AvailabilityManagement {
     }
 
 
-    private void addCrewToSource(Crew crew,Airport source) {
-        availabilityMap.compute(source, ((airport, crewSet) -> {
-            if(crewSet==null) crewSet = new CopyOnWriteArraySet<>();
+    private void addCrewToSource(Crew crew, Airport source) {
+        availabilityMap.compute(source, (airport, crewSet) -> {
+            if (crewSet == null) {
+                crewSet = Collections.synchronizedSet(new HashSet<>());
+            }
             crewSet.add(crew);
             availableCrews.add(crew);
             return crewSet;
-        }));
+        });
     }
+
 
     private void removeCrewFromSource(Crew crew, Airport oldSource) {
         availabilityMap.compute(oldSource,(((airport, crewSet) -> {
