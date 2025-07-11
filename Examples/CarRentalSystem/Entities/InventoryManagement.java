@@ -31,6 +31,7 @@ public abstract class InventoryManagement {
     }
 
     List<Vehicle> search(List<Filter> filters) {
+        // search would filter out vehicles which are reserved for that duration
         return vehicles.stream()
                 .filter(vehicle -> filters.stream().allMatch(filter -> filter.apply(vehicle)))
                 .collect(Collectors.toList());

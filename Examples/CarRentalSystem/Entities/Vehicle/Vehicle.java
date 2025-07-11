@@ -1,7 +1,10 @@
 package Examples.CarRentalSystem.Entities.Vehicle;
 
+import Examples.CarRentalSystem.CarRentalSystem;
 import Examples.CarRentalSystem.Entities.Location;
 import Examples.CarRentalSystem.Entities.Store;
+
+import java.time.Instant;
 
 public abstract class Vehicle {
     private final String vehicleId;
@@ -25,6 +28,9 @@ public abstract class Vehicle {
     //  private List<String> imageUrls;
     //  private Rating ratings;
 
+    public boolean isReserved(Instant pickupTime, Instant dropTime) {
+        return CarRentalSystem.isReserved(this,pickupTime,dropTime);
+    }
 
     public Location getCurrentLocation() {
         return currentLocation;

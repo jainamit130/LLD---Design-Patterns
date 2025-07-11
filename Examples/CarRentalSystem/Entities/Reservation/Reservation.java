@@ -42,6 +42,14 @@ public class Reservation {
         this.bill = new Bill(reservationId + "-bill",this);
     }
 
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public boolean isReserved(Instant pickupTime, Instant dropTime) {
+        return !(this.pickUpTime.isAfter(dropTime) || pickupTime.isAfter(this.dropTime));
+    }
+
     public Bill getBill() {
         return bill;
     }

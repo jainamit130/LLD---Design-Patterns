@@ -2,7 +2,9 @@ package Examples.CarRentalSystem;
 
 import Examples.CarRentalSystem.Entities.Reservation.Reservation;
 import Examples.CarRentalSystem.Entities.User;
+import Examples.CarRentalSystem.Entities.Vehicle.Vehicle;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,4 +27,11 @@ public class CarRentalSystem {
     public static boolean reserve(Reservation reservation) {
         return reservations.add(reservation);
     }
+
+    public static boolean isReserved(Vehicle vehicle, Instant pickupTime, Instant dropTime) {
+        return reservations.stream()
+                .filter(reservation -> reservation.getVehicle().equals(vehicle))
+                .anyMatch(reservation -> reservation.isReserved(pickupTime, dropTime));
+    }
+
 }
