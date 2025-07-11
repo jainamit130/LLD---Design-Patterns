@@ -1,4 +1,6 @@
 package Examples.CarRentalSystem.Entities.Vehicle;
 
-public class Filter {
+@FunctionalInterface
+public interface Filter {
+    boolean apply(Vehicle vehicle);
 }

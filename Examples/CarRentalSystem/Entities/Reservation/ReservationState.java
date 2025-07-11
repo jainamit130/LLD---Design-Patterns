@@ -16,7 +16,6 @@ public abstract class ReservationState {
 
     public abstract String getNotificationMessage();
     public abstract void reserve();
-    public abstract void confirm();
     public abstract void cancel();
     public abstract void activate();
     public abstract void complete();

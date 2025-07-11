@@ -1,47 +1,51 @@
 package Examples.CarRentalSystem.Entities.Vehicle;
 
+import Examples.CarRentalSystem.Entities.Location;
 import Examples.CarRentalSystem.Entities.Store;
 
 public abstract class Vehicle {
-    private String vehicleId;
-    private int seats;
-    private String numberPlate;
-    private VehicleType type;
+    private final String vehicleId;
+    private final int seats;
+    private final String numberPlate;
+    private final VehicleType type;
+    private final Location designatedLocation;
+    private Location currentLocation;
     private double kilometersCovered;
     private Store store;
+
+    protected Vehicle(String vehicleId, int seats, String numberPlate, VehicleType type, Location designatedLocation, Store store) {
+        this.vehicleId = vehicleId;
+        this.seats = seats;
+        this.numberPlate = numberPlate;
+        this.type = type;
+        this.designatedLocation = designatedLocation;
+        this.currentLocation = designatedLocation;
+        this.store = store;
+    }
     //  private List<String> imageUrls;
     //  private Rating ratings;
 
-    public String getVehicleId() {
-        return vehicleId;
+
+    public Location getCurrentLocation() {
+        return currentLocation;
     }
 
-    public void setVehicleId(String vehicleId) {
-        this.vehicleId = vehicleId;
+    public Location getDesignatedLocation() {return designatedLocation; }
+
+    public String getVehicleId() {
+        return vehicleId;
     }
 
     public int getSeats() {
         return seats;
     }
 
-    public void setSeats(int seats) {
-        this.seats = seats;
-    }
-
     public String getNumberPlate() {
         return numberPlate;
     }
 
-    public void setNumberPlate(String numberPlate) {
-        this.numberPlate = numberPlate;
-    }
-
     public VehicleType getType() {
         return type;
-    }
-
-    public void setType(VehicleType type) {
-        this.type = type;
     }
 
     public double getKilometersCovered() {

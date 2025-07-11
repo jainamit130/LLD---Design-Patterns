@@ -19,11 +19,6 @@ public class ActiveState extends ReservationState {
     }
 
     @Override
-    public void confirm() {
-        System.out.println(getErrorMessage(Status.ACTIVE));
-    }
-
-    @Override
     public void cancel() {
         System.out.println(getErrorMessage(Status.ACTIVE));
     }

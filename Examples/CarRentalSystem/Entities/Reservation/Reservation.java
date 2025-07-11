@@ -3,6 +3,8 @@ package Examples.CarRentalSystem.Entities.Reservation;
 import Examples.CarRentalSystem.CarRentalSystem;
 import Examples.CarRentalSystem.Entities.*;
 import Examples.CarRentalSystem.Entities.Billing.Bill;
+import Examples.CarRentalSystem.Entities.Billing.BillingStrategy;
+import Examples.CarRentalSystem.Entities.Payment.Payment;
 import Examples.CarRentalSystem.Entities.Vehicle.Vehicle;
 
 import java.time.Duration;
@@ -37,6 +39,11 @@ public class Reservation {
         this.dropLocation = dropLocation;
         this.designatedKm = designatedKm;
         this.state = new PendingState(this);
+        this.bill = new Bill(reservationId + "-bill",this);
+    }
+
+    public Bill getBill() {
+        return bill;
     }
 
     public double getDesignatedKm() {
@@ -55,23 +62,39 @@ public class Reservation {
         return reservationId;
     }
 
+    public void notify(String notification) {
+        notifier.notifyUser(user,notification);
+    }
+
     public void setState(ReservationState state) {
         this.state = state;
-        notifier.notifyUser(user,getNotificationMessage());
+        notify(getNotificationMessage());
     }
 
-    public Bill reserve() {
+    public Bill reserve(BillingStrategy billingStrategy) {
         // calculate bill using different strategies
-        return new Bill();
+        billingStrategy.populateBalance();
+        return bill;
     }
 
-    public Reservation confirm() {
+    public Reservation confirm(Payment payment) {
+        if(!bill.pay(payment)) return this;
         if(CarRentalSystem.reserve(this)) state.reserve();
         return this;
     }
 
     public Reservation cancel() {
-        if(CarRentalSystem.cancel(this)) state.cancel();
+        if(CarRentalSystem.remove(this)) state.cancel();
+        return this;
+    }
+
+    public Reservation activate() {
+        state.activate();
+        return this;
+    }
+
+    public Reservation complete() {
+        if(CarRentalSystem.remove(this)) state.complete();
         return this;
     }
 }

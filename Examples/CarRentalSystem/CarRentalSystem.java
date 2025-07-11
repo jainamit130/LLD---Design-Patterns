@@ -14,7 +14,7 @@ public class CarRentalSystem {
 
     private CarRentalSystem() {}
 
-    public static boolean cancel(Reservation reservation) {
+    public static boolean remove(Reservation reservation) {
         return reservations.remove(reservation);
     }
 

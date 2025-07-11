@@ -19,11 +19,6 @@ public class PendingState extends ReservationState {
     }
 
     @Override
-    public void confirm() {
-        System.out.println(getErrorMessage(Status.PENDING));
-    }
-
-    @Override
     public void cancel() {
         reservation.setState(new CancelledState(reservation));
     }

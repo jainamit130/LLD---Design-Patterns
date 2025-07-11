@@ -4,11 +4,11 @@ import Examples.CarRentalSystem.Entities.Vehicle.Filter;
 import Examples.CarRentalSystem.Entities.Vehicle.Vehicle;
 import Examples.CarRentalSystem.Entities.Vehicle.VehicleType;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public abstract class InventoryManagement {
     private static final CopyOnWriteArrayList<Vehicle> vehicles = new CopyOnWriteArrayList<>();
@@ -31,6 +31,8 @@ public abstract class InventoryManagement {
     }
 
     List<Vehicle> search(List<Filter> filters) {
-        return new ArrayList<>();
+        return vehicles.stream()
+                .filter(vehicle -> filters.stream().allMatch(filter -> filter.apply(vehicle)))
+                .collect(Collectors.toList());
     }
 }

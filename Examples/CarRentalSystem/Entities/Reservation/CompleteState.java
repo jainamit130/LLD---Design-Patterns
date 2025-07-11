@@ -19,11 +19,6 @@ public class CompleteState extends ReservationState {
     }
 
     @Override
-    public void confirm() {
-        System.out.println(getErrorMessage(Status.COMPLETED));
-    }
-
-    @Override
     public void cancel() {
         System.out.println(getErrorMessage(Status.COMPLETED));
     }

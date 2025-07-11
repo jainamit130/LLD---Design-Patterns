@@ -1,4 +1,4 @@
-package Examples.CarRentalSystem.Entities;
+package Examples.CarRentalSystem.Entities.Payment;
 
 public enum PaymentStatus {
     PAID,

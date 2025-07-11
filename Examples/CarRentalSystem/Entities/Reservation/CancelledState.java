@@ -19,11 +19,6 @@ public class CancelledState extends ReservationState {
     }
 
     @Override
-    public void confirm() {
-        System.out.println(getErrorMessage(Status.CANCELLED));
-    }
-
-    @Override
     public void cancel() {
         System.out.println(getErrorMessage(Status.CANCELLED));
     }
