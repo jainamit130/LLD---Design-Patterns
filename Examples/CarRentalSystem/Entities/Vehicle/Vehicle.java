@@ -69,4 +69,17 @@ public abstract class Vehicle {
     public void setStore(Store store) {
         this.store = store;
     }
+
+    public void updateCurrentLocation(Location currentLocation) {
+        this.currentLocation = currentLocation;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "vehicleId='" + vehicleId + '\'' +
+                ", seats=" + seats +
+                ", numberPlate='" + numberPlate + '\'' +
+                '}';
+    }
 }

@@ -42,6 +42,10 @@ public class Reservation {
         this.bill = new Bill(reservationId + "-bill",this);
     }
 
+    public void updateDropLocation(Location location) {
+        vehicle.updateCurrentLocation(location);
+    }
+
     public Vehicle getVehicle() {
         return vehicle;
     }
@@ -79,10 +83,10 @@ public class Reservation {
         notify(getNotificationMessage());
     }
 
-    public Bill reserve(BillingStrategy billingStrategy) {
+    public Reservation reserve(BillingStrategy billingStrategy) {
         // calculate bill using different strategies
         billingStrategy.populateBalance();
-        return bill;
+        return this;
     }
 
     public Reservation confirm(Payment payment) {
@@ -101,8 +105,11 @@ public class Reservation {
         return this;
     }
 
-    public Reservation complete() {
-        if(CarRentalSystem.remove(this)) state.complete();
+    public Reservation complete(Location location) {
+        if(CarRentalSystem.remove(this)) {
+            state.complete();
+            updateDropLocation(location);
+        }
         return this;
     }
 }

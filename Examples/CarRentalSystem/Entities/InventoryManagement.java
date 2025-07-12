@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
-public abstract class InventoryManagement {
+public class InventoryManagement {
     private static final CopyOnWriteArrayList<Vehicle> vehicles = new CopyOnWriteArrayList<>();
     private static final Map<VehicleType,Integer> vehicleCountMap = new ConcurrentHashMap<>();
 
@@ -20,7 +20,7 @@ public abstract class InventoryManagement {
         });
     }
 
-    private static void addVehicle(Vehicle vehicle) {
+    public static void addVehicle(Vehicle vehicle) {
         vehicles.add(vehicle);
         vehicleCountMap.put(vehicle.getType(),vehicleCountMap.getOrDefault(vehicle.getType(),0)+1);
     }
@@ -30,7 +30,7 @@ public abstract class InventoryManagement {
         vehicleCountMap.put(vehicle.getType(),vehicleCountMap.getOrDefault(vehicle.getType(),0)-1);
     }
 
-    List<Vehicle> search(List<Filter> filters) {
+    public List<Vehicle> search(List<Filter> filters) {
         // search would filter out vehicles which are reserved for that duration
         return vehicles.stream()
                 .filter(vehicle -> filters.stream().allMatch(filter -> filter.apply(vehicle)))
