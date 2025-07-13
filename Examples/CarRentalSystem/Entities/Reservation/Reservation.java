@@ -40,6 +40,7 @@ public class Reservation {
         this.designatedKm = designatedKm;
         this.state = new PendingState(this);
         this.bill = new Bill(reservationId + "-bill",this);
+        this.notifier = new Notifier();
     }
 
     public void updateDropLocation(Location location) {
@@ -111,5 +112,13 @@ public class Reservation {
             updateDropLocation(location);
         }
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "reservationId='" + reservationId + '\'' +
+                ", state=" + state.toString() +
+                '}';
     }
 }

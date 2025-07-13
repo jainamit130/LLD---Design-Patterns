@@ -8,6 +8,7 @@ public class Payment {
     private double amount;
 
     public Payment(Bill bill) {
+        this.state = new Due(this);
         this.bill = bill;
     }
 

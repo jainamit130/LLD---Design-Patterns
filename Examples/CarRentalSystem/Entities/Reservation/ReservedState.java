@@ -25,7 +25,7 @@ public class ReservedState extends ReservationState {
 
     @Override
     public void activate() {
-        System.out.println(getErrorMessage(Status.ACTIVE));
+        reservation.setState(new ActiveState(reservation));
     }
 
     @Override

@@ -11,8 +11,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class InventoryManagement {
-    private static final CopyOnWriteArrayList<Vehicle> vehicles = new CopyOnWriteArrayList<>();
-    private static final Map<VehicleType,Integer> vehicleCountMap = new ConcurrentHashMap<>();
+    private final CopyOnWriteArrayList<Vehicle> vehicles = new CopyOnWriteArrayList<>();
+    private final Map<VehicleType,Integer> vehicleCountMap = new ConcurrentHashMap<>();
 
     public InventoryManagement(CopyOnWriteArrayList<Vehicle> vehicles) {
         vehicles.stream().forEach((Vehicle vehicle) -> {
@@ -20,12 +20,12 @@ public class InventoryManagement {
         });
     }
 
-    public static void addVehicle(Vehicle vehicle) {
+    public void addVehicle(Vehicle vehicle) {
         vehicles.add(vehicle);
         vehicleCountMap.put(vehicle.getType(),vehicleCountMap.getOrDefault(vehicle.getType(),0)+1);
     }
 
-    private static void removeVehicle(Vehicle vehicle) {
+    private void removeVehicle(Vehicle vehicle) {
         vehicles.remove(vehicle);
         vehicleCountMap.put(vehicle.getType(),vehicleCountMap.getOrDefault(vehicle.getType(),0)-1);
     }

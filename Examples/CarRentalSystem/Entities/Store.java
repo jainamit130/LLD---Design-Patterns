@@ -1,5 +1,6 @@
 package Examples.CarRentalSystem.Entities;
 
+import Examples.CarRentalSystem.CarRentalSystem;
 import Examples.CarRentalSystem.Entities.Vehicle.Vehicle;
 
 public class Store {
@@ -11,6 +12,7 @@ public class Store {
         this.storeId = storeId;
         this.location = location;
         this.vehicleInventory = vehicleInventory;
+        CarRentalSystem.addStore(this);
     }
 
     public InventoryManagement getVehicleInventory() {

@@ -4,6 +4,7 @@ import Examples.CarRentalSystem.Entities.Notifier;
 import Examples.CarRentalSystem.Entities.Payment.Payment;
 import Examples.CarRentalSystem.Entities.Reservation.Reservation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Bill {
@@ -16,6 +17,11 @@ public class Bill {
     public Bill(String billId, Reservation reservation) {
         this.billId = billId;
         this.reservation = reservation;
+        this.payments = new ArrayList<>();
+    }
+
+    public Reservation getReservation() {
+        return reservation;
     }
 
     public void notify(String notification) {

@@ -19,4 +19,11 @@ public abstract class ReservationState {
     public abstract void cancel();
     public abstract void activate();
     public abstract void complete();
+
+    @Override
+    public String toString() {
+        return "ReservationState{" +
+                "status=" + status +
+                '}';
+    }
 }

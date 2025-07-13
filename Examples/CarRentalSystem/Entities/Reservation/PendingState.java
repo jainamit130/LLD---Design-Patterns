@@ -25,11 +25,11 @@ public class PendingState extends ReservationState {
 
     @Override
     public void activate() {
-        System.out.println(getErrorMessage(Status.PENDING));
+        System.out.println(getErrorMessage(Status.ACTIVE));
     }
 
     @Override
     public void complete() {
-        System.out.println(getErrorMessage(Status.PENDING));
+        System.out.println(getErrorMessage(Status.COMPLETED));
     }
 }

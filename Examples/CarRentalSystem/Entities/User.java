@@ -35,10 +35,8 @@ public class User {
         return reservations.getLast();
     }
 
-
-
-    public boolean pay(Bill bill, Payment payment) {
-        return bill.pay(payment);
+    public Reservation pay(Bill bill, Payment payment) {
+        return bill.getReservation().confirm(payment);
     }
 
     public boolean cancel(Bill bill, Payment payment) {

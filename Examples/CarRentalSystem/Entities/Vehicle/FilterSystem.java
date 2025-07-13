@@ -1,6 +1,7 @@
 package Examples.CarRentalSystem.Entities.Vehicle;
 
 import Examples.CarRentalSystem.Entities.Location;
+import Examples.CarRentalSystem.Entities.Store;
 
 import java.time.Instant;
 
@@ -20,5 +21,13 @@ public class FilterSystem {
 
     public static Filter bySeat(int seats) {
         return vehicle -> vehicle.getSeats()==seats;
+    }
+
+    public static Filter byCity(String city)  {
+        return vehicle -> vehicle.getCurrentLocation().getCity().equals(city);
+    }
+
+    public static Filter byStore(Store store)  {
+        return vehicle -> vehicle.getStore().equals(store);
     }
 }
