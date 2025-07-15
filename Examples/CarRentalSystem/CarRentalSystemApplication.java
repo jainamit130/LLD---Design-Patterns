@@ -14,9 +14,7 @@ import Examples.CarRentalSystem.Entities.Vehicle.VehicleType;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CarRentalSystemApplication {
@@ -87,8 +85,8 @@ public class CarRentalSystemApplication {
             reservation1.complete(loc1);
 
             System.out.println(reservation1);
-
-
+            Deque<Integer> dq = new LinkedList<>();
+            dq.offer(5);
         }
     }
 }
