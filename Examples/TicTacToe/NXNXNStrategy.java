@@ -1,6 +1,7 @@
-package Examples.TicTacToe.Entities;
+package Examples.TicTacToe;
 
-import Examples.TicTacToe.Entities.ExceptionHandling.InvalidGameStrategyException;
+import Examples.TicTacToe.Entities.*;
+import Examples.TicTacToe.ExceptionHandling.InvalidGameStrategyException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class NXNXNStrategy extends GameStrategy {
         antiDiagonal = new HashMap<>();
     }
 
-    private Integer getTotalRowCount(Player player,Move move) {
+    private Integer getTotalRowCount(Player player, Move move) {
         return this.row.get(move.getRow()).getOrDefault(player,0);
     }
 
@@ -70,7 +71,7 @@ public class NXNXNStrategy extends GameStrategy {
     }
 
     @Override
-    public MoveResult processMove(Player player,Move move) {
+    public MoveResult processMove(Player player, Move move) {
         int row = move.getRow();
         int col = move.getCol();
         incrementRowCount(player,row);

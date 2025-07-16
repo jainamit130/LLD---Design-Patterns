@@ -1,4 +1,4 @@
-package Examples.TicTacToe.Entities.ExceptionHandling;
+package Examples.TicTacToe.ExceptionHandling;
 
 public class InvalidGameStrategyException extends Exception {
 

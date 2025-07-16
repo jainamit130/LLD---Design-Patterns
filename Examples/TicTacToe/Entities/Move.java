@@ -1,7 +1,5 @@
 package Examples.TicTacToe.Entities;
 
-import Examples.TicTacToe.Entities.Cell.Piece;
-
 public class Move {
     private final int row;
     private final int col;

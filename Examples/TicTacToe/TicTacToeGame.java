@@ -1,7 +1,8 @@
-package Examples.TicTacToe.Entities;
+package Examples.TicTacToe;
 
 import Examples.TicTacToe.Entities.Cell.Piece;
 import Examples.TicTacToe.Entities.Cell.PieceType;
+import Examples.TicTacToe.Entities.*;
 
 import java.util.List;
 import java.util.Scanner;
