@@ -1,18 +1,15 @@
 package Examples.Splitwise.model.Expense;
 
+import Examples.Splitwise.ExceptionHandling.InvalidExpenseException;
+import Examples.Splitwise.model.Expense.ExpenseRequestDTO.ExpenseDTO;
 import Examples.Splitwise.model.Group;
 
 public class GroupExpense extends Expense {
     private Group group;
 
-    public GroupExpense(Group group, PartialExpense expense) {
+    public GroupExpense(Group group, ExpenseDTO expense) throws InvalidExpenseException {
         super(expense);
         this.group = group;
     }
 
-    @Override
-    public boolean validate() {
-        // only 2 splits with right users
-
-    }
 }
