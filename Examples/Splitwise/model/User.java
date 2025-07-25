@@ -43,19 +43,27 @@ public class User implements IExpensable {
     }
 
     public BalanceSheet receiveSettlement(Balance balance) {
-        balanceSheet.minusBalance(balance);
+        removeBalance(balance);
         return balanceSheet;
     }
 
+    public void removeBalance(Balance balance) {
+        balanceSheet.minusBalance(balance);
+    }
+
     public BalanceSheet settleBalance(Balance balance) {
-        balanceSheet.addBalance(balance);
-        balance.getUser().getReceiverBalance(getReceiverBalance(balance));
+        addBalance(balance);
+        balance.getUser().receiveSettlement(getReceiverBalance(balance));
         return balanceSheet;
+    }
+
+    public void addBalance(Balance balance) {
+        balanceSheet.addBalance(balance);
     }
 
     public Expense createExpense(IExpensable entity, ExpenseDTO expenseDto) throws InvalidExpenseException {
         Expense expense = entity.createExpense(expenseDto);
-        expense.populateValidSplits();
+        expense.processBalance();
         expenses.add(expense);
         return expense;
     }

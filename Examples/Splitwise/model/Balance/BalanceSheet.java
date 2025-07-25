@@ -13,11 +13,15 @@ public class BalanceSheet {
     }
 
     public void minusBalance(Balance balance) {
-        balances.put(balance.getUser(),balances.get(balance.getUser()).minus(balance));
+        balances.put(balance.getUser(),balances.getOrDefault(balance.getUser(),new Owe(balance.getUser())).minus(balance));
     }
 
     public void addBalance(Balance balance) {
-        balances.put(balance.getUser(),balances.get(balance.getUser()).add(balance));
+        balances.put(balance.getUser(),balances.getOrDefault(balance.getUser(),new Owe(balance.getUser())).add(balance));
+    }
+
+    public void setBalance(Balance balance) {
+        balances.put(balance.getUser(),balance);
     }
 
     public Balance getBalance(User user) {

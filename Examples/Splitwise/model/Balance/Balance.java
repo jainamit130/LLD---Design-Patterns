@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public abstract class Balance implements Cloneable {
+public abstract class Balance {
     protected User user;
     protected final AtomicReference<BigDecimal> amount;
 
@@ -18,6 +18,10 @@ public abstract class Balance implements Cloneable {
     public Balance(User user, AtomicReference<BigDecimal> amount) {
         this.user = user;
         this.amount = amount;
+    }
+
+    public AtomicReference<BigDecimal> getAmount() {
+        return amount;
     }
 
     public abstract BigDecimal getSignedAmount();
@@ -34,11 +38,11 @@ public abstract class Balance implements Cloneable {
     }
 
     public Balance add(Balance balance) {
-        return  BalanceFactory.getBalance(new AtomicReference<>(this.getSignedAmount().add(balance.getSignedAmount())),user);
+        return  BalanceFactory.getBalance(this.getSignedAmount().add(balance.getSignedAmount()),user);
     }
 
     public Balance minus(Balance balance) {
-        return  BalanceFactory.getBalance(new AtomicReference<>(this.getSignedAmount().subtract(balance.getSignedAmount())),user);
+        return  BalanceFactory.getBalance(this.getSignedAmount().subtract(balance.getSignedAmount()),user);
     }
 
     public static BigDecimal addAll(List<? extends Balance> transactions) {

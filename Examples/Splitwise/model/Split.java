@@ -17,4 +17,12 @@ public class Split {
         this.amount = amount;
         this.type = type;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
 }

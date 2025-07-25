@@ -13,7 +13,16 @@ public abstract class ExpenseDTO {
     protected SplitAlgorithm splitAlgorithm;
     protected BigDecimal amount;
     protected List<Paid> participants;
-    protected User createdBy;
+    protected final User createdBy;
+
+    public ExpenseDTO(String expenseName, String description, SplitAlgorithm splitAlgorithm, BigDecimal amount, List<Paid> participants, User createdBy) {
+        this.expenseName = expenseName;
+        this.description = description;
+        this.splitAlgorithm = splitAlgorithm;
+        this.amount = amount;
+        this.participants = participants;
+        this.createdBy = createdBy;
+    }
 
     public abstract boolean validate();
 
@@ -57,7 +66,4 @@ public abstract class ExpenseDTO {
         this.participants = participants;
     }
 
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
 }
