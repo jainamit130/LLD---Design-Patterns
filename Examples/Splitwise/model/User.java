@@ -26,6 +26,10 @@ public class User implements IExpensable {
         this.balanceSheet = new BalanceSheet();
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     public String getName() {
         return name;
     }

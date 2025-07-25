@@ -23,6 +23,18 @@ public class Group implements IExpensable {
         this.expenses = new ArrayList<>();
     }
 
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public String getGroupDesc() {
+        return groupDesc;
+    }
+
     public boolean areAllPartOfGroup(List<User> users) {
         return this.users.containsAll(users);
     }

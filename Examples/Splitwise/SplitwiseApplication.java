@@ -22,15 +22,17 @@ public class SplitwiseApplication {
     public void start() throws InvalidExpenseException {
         while (true) {
             System.out.println("""
-                    \n--- Splitwise Console ---
-                    1. Create User
-                    2. Create Group
-                    3. Add Personal Expense
-                    4. Add Group Expense
-                    5. Settle Balance
-                    6. View Balance Sheet
-                    7. Exit
-                    Choose option: """);
+                \n--- Splitwise Console ---
+                1. Create User
+                2. Create Group
+                3. Add Personal Expense
+                4. Add Group Expense
+                5. Settle Balance
+                6. View Balance Sheet
+                7. Show All Users
+                8. Show All Groups
+                9. Exit
+                Choose option: """);
 
             int choice = Integer.parseInt(scanner.nextLine());
 
@@ -41,7 +43,9 @@ public class SplitwiseApplication {
                 case 4 -> addGroupExpense();
                 case 5 -> settleBalance();
                 case 6 -> viewBalanceSheet();
-                case 7 -> {
+                case 7 -> printAllUsers();
+                case 8 -> printAllGroups();
+                case 9 -> {
                     System.out.println("Exiting Splitwise App. Goodbye!");
                     return;
                 }
@@ -109,9 +113,17 @@ public class SplitwiseApplication {
     private void addGroupExpense() throws InvalidExpenseException {
         System.out.print("Enter group ID: ");
         Group group = getGroup(scanner.nextLine());
+        if (group == null) {
+            System.out.println("⚠️ Cancelled adding group expense.");
+            return;
+        }
 
         System.out.print("Enter user ID creating expense: ");
         User creator = getUser(scanner.nextLine());
+        if (creator == null) {
+            System.out.println("⚠️ Cancelled adding group expense.");
+            return;
+        }
 
         System.out.print("Enter amount: ");
         BigDecimal amount = new BigDecimal(scanner.nextLine());
@@ -120,6 +132,10 @@ public class SplitwiseApplication {
         String name = scanner.nextLine();
 
         List<Paid> paidList = readPaidUsers();
+        if (paidList == null) {
+            System.out.println("⚠️ Cancelled adding group expense.");
+            return;
+        }
 
         GroupExpenseDTO dto = new GroupExpenseDTO(
                 UUID.randomUUID().toString(), name,
@@ -131,7 +147,7 @@ public class SplitwiseApplication {
         );
 
         Expense e = creator.createExpense(group, dto);
-        System.out.println("Group Expense created:\n" + e);
+        System.out.println("✅ Group Expense created:\n" + e);
     }
 
     private void settleBalance() {
@@ -161,6 +177,7 @@ public class SplitwiseApplication {
         for (int i = 0; i < n; i++) {
             System.out.print("User ID: ");
             User u = getUser(scanner.nextLine());
+            if (u == null) return null;
 
             System.out.print("Amount paid: ");
             BigDecimal amt = new BigDecimal(scanner.nextLine());
@@ -171,14 +188,52 @@ public class SplitwiseApplication {
     }
 
     private User getUser(String id) {
-        User user = users.get(id);
-        if (user == null) throw new IllegalArgumentException("User not found: " + id);
-        return user;
+        while (true) {
+            if (id.equalsIgnoreCase("back")) return null;
+
+            User user = users.get(id);
+            if (user != null) return user;
+
+            System.out.println("User not found: " + id);
+            System.out.print("Please enter a valid user ID (or type 'back' to cancel): ");
+            id = scanner.nextLine();
+        }
     }
 
     private Group getGroup(String id) {
-        Group group = groups.get(id);
-        if (group == null) throw new IllegalArgumentException("Group not found: " + id);
-        return group;
+        while (true) {
+            if (id.equalsIgnoreCase("back")) return null;
+
+            Group group = groups.get(id);
+            if (group != null) return group;
+
+            System.out.println("Group not found: " + id);
+            System.out.print("Please enter a valid group ID (or type 'back' to cancel): ");
+            id = scanner.nextLine();
+        }
     }
+
+    private void printAllUsers() {
+        if (users.isEmpty()) {
+            System.out.println("No users found.");
+            return;
+        }
+        System.out.println("\n--- All Users ---");
+        for (User user : users.values()) {
+            System.out.println("ID: " + user.getUserId() + ", Name: " + user.getName());
+        }
+    }
+
+    private void printAllGroups() {
+        if (groups.isEmpty()) {
+            System.out.println("No groups found.");
+            return;
+        }
+        System.out.println("\n--- All Groups ---");
+        for (Group group : groups.values()) {
+            System.out.println("ID: " + group.getGroupId() + ", Name: " + group.getGroupName() +
+                    ", Description: " + group.getGroupDesc());
+        }
+    }
+
 }
