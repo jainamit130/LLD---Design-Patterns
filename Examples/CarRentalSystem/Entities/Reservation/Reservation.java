@@ -116,7 +116,7 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation{" +
+        return "Reserved{" +
                 "reservationId='" + reservationId + '\'' +
                 ", state=" + state.toString() +
                 '}';

@@ -10,7 +10,7 @@ public class PendingState extends ReservationState {
 
     @Override
     public String getNotificationMessage() {
-        return "Reservation "+ reservation.getReservationId() + " is pending";
+        return "Reserved "+ reservation.getReservationId() + " is pending";
     }
 
     @Override

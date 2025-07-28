@@ -10,7 +10,7 @@ public class CompleteState extends ReservationState {
 
     @Override
     public String getNotificationMessage() {
-        return "Reservation "+ reservation.getReservationId() + " is completed";
+        return "Reserved "+ reservation.getReservationId() + " is completed";
     }
 
     @Override

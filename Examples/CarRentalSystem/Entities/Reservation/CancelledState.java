@@ -10,7 +10,7 @@ public class CancelledState extends ReservationState {
 
     @Override
     public String getNotificationMessage() {
-        return "Reservation "+ reservation.getReservationId() + " is cancelled";
+        return "Reserved "+ reservation.getReservationId() + " is cancelled";
     }
 
     @Override

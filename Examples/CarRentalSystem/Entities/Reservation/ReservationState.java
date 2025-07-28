@@ -11,7 +11,7 @@ public abstract class ReservationState {
     }
 
     protected String getErrorMessage(Status newStatus) {
-        return "Reservation state is "+status.name()+" and cannot be " + newStatus.toString() + "!";
+        return "Reserved state is "+status.name()+" and cannot be " + newStatus.toString() + "!";
     }
 
     public abstract String getNotificationMessage();

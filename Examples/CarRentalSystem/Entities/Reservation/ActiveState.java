@@ -10,7 +10,7 @@ public class ActiveState extends ReservationState {
 
     @Override
     public String getNotificationMessage() {
-        return "Reservation "+ reservation.getReservationId() + " is activated";
+        return "Reserved "+ reservation.getReservationId() + " is activated";
     }
 
     @Override
