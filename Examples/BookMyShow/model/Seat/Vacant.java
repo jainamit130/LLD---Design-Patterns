@@ -14,7 +14,7 @@ public class Vacant extends SeatState {
 
     @Override
     public boolean book() {
-        System.out.println("First reserve the seat!");
+        System.out.println("Reservation expired! Reserve again!");
         return false;
     }
 

@@ -28,9 +28,16 @@ public class BookMyShowApplication {
         Showing showing = new Showing("showing-1", start, end, cricketMatch, stadium);
         Seat seat1 = new Seat("A1", stadium, new BigDecimal(200));
         Seat seat2 = new Seat("A2", stadium, new BigDecimal(200));
+        Seat seat3 = new Seat("A3", stadium, new BigDecimal(200));
         List<Seat> seats = Arrays.asList(seat1, seat2);
         Reservation reservation = new Reservation("reservation1",seats);
         stadium.addShowing(showing);
         Reservation reserved = user.reserve(reservation);
+        try {
+            Thread.sleep(16000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        reserved.book();
     }
 }
