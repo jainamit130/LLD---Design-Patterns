@@ -34,7 +34,7 @@ public class BookMyShowApplication {
         stadium.addShowing(showing);
         Reservation reserved = user.reserve(reservation);
         try {
-            Thread.sleep(16000);
+            Thread.sleep(14000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

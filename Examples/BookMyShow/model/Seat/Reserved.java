@@ -15,7 +15,7 @@ public class Reserved extends SeatState {
     @Override
     public boolean book() {
         seat.setState(new Booked(seat));
-        return false;
+        return true;
     }
 
     @Override

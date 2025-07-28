@@ -46,6 +46,7 @@ public class Reservation {
         for(Seat seat:seats) {
             if (seat.book()) {
                 setStatus(ReservationStatus.BOOKED);
+                System.out.println(seat.getSeatId()+" Booked!");
             } else {
                 // handle here to release all seats
                 return null;
