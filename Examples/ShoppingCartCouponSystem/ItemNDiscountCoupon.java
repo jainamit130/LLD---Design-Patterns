@@ -6,7 +6,7 @@ public class ItemNDiscountCoupon extends Coupon {
     private int productPosition;
     private ProductType type;
     public ItemNDiscountCoupon(String couponId, double discount, int productPosition, ProductType type,CartProduct product) throws CouponException {
-        super(couponId, discount, product,1);
+        super(couponId, discount, product,CouponType.ITEM_N);
         this.productPosition = productPosition;
         this.type = type;
     }

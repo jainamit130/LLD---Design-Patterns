@@ -2,20 +2,19 @@ package Examples.ShoppingCartCouponSystem;
 
 import Examples.ShoppingCartCouponSystem.Exception.ProductNotPartOfCartException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ShoppingCart {
     private String shoppingCartId;
     private List<Map<ProductType, Integer>> productPos;
+    private Set<ApplyOnceCoupon> applyOnceCoupons;
     private List<CartProduct> products;
 
     public ShoppingCart(String shoppingCartId) {
         this.shoppingCartId = shoppingCartId;
         this.products = new ArrayList<>();
         productPos = new ArrayList<>();
+        this.applyOnceCoupons = new HashSet<>();
     }
 
     public ShoppingCart() {
@@ -57,4 +56,13 @@ public class ShoppingCart {
         }
     }
 
+
+    public void applyCoupons(ApplyOnceCoupon coupon) {
+        applyOnceCoupons.add(coupon);
+    }
+
+
+    public boolean validateApplyOnceCoupon(ApplyOnceCoupon coupon) {
+        return !applyOnceCoupons.contains(coupon);
+    }
 }

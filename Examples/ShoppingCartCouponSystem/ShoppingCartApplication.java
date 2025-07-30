@@ -29,7 +29,8 @@ public class ShoppingCartApplication {
 
             double total = 0;
             for(CartProduct product : cart.getProducts()) {
-                double subTotal = new ItemNDiscountCoupon("NItemDiscount",10,2,ProductType.ELECTRONICS,new DiscountCoupon("FLAT10",10,product)).getPrice();
+                NextItemDiscountCoupon coupon = new NextItemDiscountCoupon("NEXTFLAT11",10,new NextItemDiscountCoupon("NEXTFLAT11",10,new NextItemDiscountCoupon("NEXTFLAT10",10,new ItemNDiscountCoupon("NItemDiscount",10,2,ProductType.ELECTRONICS,new DiscountCoupon("FLAT10",10,product)))));
+                double subTotal = coupon.getDiscountedPrice();
                 System.out.println(product.getProductId() + " " + subTotal);
                 total += subTotal;
             }

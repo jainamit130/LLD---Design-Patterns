@@ -5,12 +5,16 @@ import Examples.ShoppingCartCouponSystem.Exception.CouponException;
 public abstract class Product implements IProduct {
     protected String productId;
     protected double price;
-    protected ProductType type;
+    private ProductType type;
 
     public Product(String productId, double price, ProductType type) {
         this.productId = productId;
         this.price = price;
         this.type = type;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public String getProductId() {
@@ -22,7 +26,7 @@ public abstract class Product implements IProduct {
     }
 
     @Override
-    public double getPrice() throws CouponException {
+    public double getDiscountedPrice() throws CouponException {
         return price;
     }
 }

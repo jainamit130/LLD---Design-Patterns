@@ -8,6 +8,7 @@ import java.util.Set;
 
 public class CartProduct extends Product {
     private ShoppingCart cart;
+    private Set<CouponType> couponTypes;
     private Product product;
     // 1 coupon can be applied only once
     protected Set<Coupon> appliedCoupons;
@@ -17,10 +18,15 @@ public class CartProduct extends Product {
         this.product = product;
         this.cart = cart;
         this.appliedCoupons = new HashSet<>();
+        this.couponTypes = new HashSet<>();
     }
 
     public ShoppingCart getCart() {
         return cart;
+    }
+
+    protected boolean validateApplyOnceCoupon(ApplyOnceCoupon coupon) {
+        return cart.validateApplyOnceCoupon(coupon) && !couponTypes.contains(coupon.getCouponType());
     }
 
     public boolean validateCoupon(Coupon coupon) {
@@ -28,13 +34,18 @@ public class CartProduct extends Product {
     }
 
     @Override
-    public double getPrice() throws CouponException {
-        return price;
+    public double getDiscountedPrice() throws CouponException {
+        return product.getDiscountedPrice();  // ✅ FIX: Recurse if decorated
     }
 
     @Override
     public String getProductId() {
         return productId;
+    }
+
+    public void applyOnceCoupon(ApplyOnceCoupon coupon) {
+        couponTypes.add(coupon.getCouponType());
+        cart.applyCoupons(coupon);
     }
 
     public void applyCoupon(Coupon coupon) {
